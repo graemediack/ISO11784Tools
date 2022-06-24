@@ -1,5 +1,7 @@
+
+
 # ISO11784 PIT Tag Conversion Functions
-# NOTES R maxes out at 31 bit integer, DescTools pacakge has some functions that do the job of the ones written here but 
+# NOTES R maxes out at 31 bit integer, DescTools pacakge has some functions that do the job of the ones written here but
 # MAXIMUMS:
 # HexToDec('7fffffff') = 2147483647 (31 bits)
 # DecToHex(2147483647) = 7fffffff (31 bits)
@@ -173,7 +175,7 @@ ISOdecimalToISOdothex <- function(dec){
 }
 
 ISODecimalToISO64bitLeft <- function(dec){
-  # function to convert ISO decimal format to 64 bit ISO in hex format (left hand LSB variant) 
+  # function to convert ISO decimal format to 64 bit ISO in hex format (left hand LSB variant)
   # INPUT: single ISO decimal number as string
   ##  ISO64bitl <- "^8000[:xdigit:]{12}$" # 64 bits and LSB on the left
   # OUTPUT: single 64 bit hexadecimal number as string
@@ -188,7 +190,7 @@ ISODecimalToISO64bitLeft <- function(dec){
 }
 
 ISODecimalToISO64bitRight <- function(dec){
-  # function to convert ISO decimal format to 64 bit ISO in hex format (left hand LSB variant) 
+  # function to convert ISO decimal format to 64 bit ISO in hex format (left hand LSB variant)
   # INPUT: single ISO decimal number as string
   ##  ISO64bitr <- "^[:xdigit:]{12}0001$" # 64 bits and LSB on the right
   # OUTPUT: single 64 bit hexadecimal number as string
