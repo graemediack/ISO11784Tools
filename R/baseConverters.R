@@ -5,6 +5,7 @@
 #' Hexadecimal to Decimal converter
 #' @param hex A single hexadecimal number as a string. Max '40000000000000'
 #' @return A single decimal number as a string
+#' @export
 #' @examples
 #' hex2dec('ABC123')
 hex2dec <- function(hex){
@@ -13,7 +14,7 @@ hex2dec <- function(hex){
   }
   hexVector <- stringr::str_split(hex,'',simplify = F)[[1]]
   if(length(hexVector) > 14 | (length(hexVector) == 14 & sum(as.numeric(hexVector),na.rm = T) > 4)){
-    stop(paste0(hex,' is too large for this package, sorry! (max = 40000000000000)'))
+    stop(paste0(hex,' is too large for this package, sorry! (max = "40000000000000")'))
   }else{
     pow <- (length(hexVector)-1):0
     dec <- 0
@@ -30,6 +31,7 @@ hex2dec <- function(hex){
 #' R will sum up to 18014398509481984, or 54bits, as long as it is not stored as an integer object.
 #' @param bin A single binary number as a string with nchar(bin) <= 54
 #' @return A single decimal number as a string
+#' @export
 #' @examples
 #' bin2dec('1001100')
 bin2dec <- function(bin){
@@ -61,6 +63,7 @@ bin2dec <- function(bin){
 #' Decimal to Binary converter
 #' @param dec A single decimal number as a string
 #' @return A single binary number as a string
+#' @export
 #' @examples
 #' dec2bin('1234')
 dec2bin <- function(dec){
@@ -76,6 +79,7 @@ dec2bin <- function(dec){
 #' Decimal to Hexadecimal converter
 #' @param dec A single decimal number as a string
 #' @return A single hexadecimal number as a string
+#' @export
 #' @examples
 #' dec2hex('1234')
 dec2hex <- function(dec){
@@ -92,6 +96,7 @@ dec2hex <- function(dec){
 #' This is simply a wrapper for dec2bin and hex2dec
 #' @param hex A single hexadecimal number as a string
 #' @return A single binary number as a string
+#' @export
 #' @examples
 #' hex2bin('ABC123')
 hex2bin <- function(hex){
@@ -102,6 +107,7 @@ hex2bin <- function(hex){
 #' Binary to Hexadecimal converter
 #' @param bin A single binary number as a string
 #' @return A single hexadecimal number as a string
+#' @export
 #' @examples
 #' bin2hex('1001101')
 bin2hex <- function(bin){

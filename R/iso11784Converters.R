@@ -1,16 +1,5 @@
-
-
-# ISO11784 PIT Tag Conversion Functions
-# NOTES R maxes out at 31 bit integer, DescTools pacakge has some functions that do the job of the ones written here but
-# MAXIMUMS:
-# HexToDec('7fffffff') = 2147483647 (31 bits)
-# DecToHex(2147483647) = 7fffffff (31 bits)
-# DecToBin(536870911) = 11111111111111111111111111111 (29 bits)
-# .Machine$integer.max = 2147483647 = 1111111111111111111111111111111 (31bits)
-# All conversion calculations were written by Graeme Diack with the assistance of rapidtable.com
-
-# wrappers to derive the correct format
-# First stage, convert all of the formats to decimal
+# baseConverters.R function wrappers to derive the correct format
+# First stage, convert all of the formats to ISO11784 15 digit decimal
 ### 3 wrappers
 ISOdothexToISOdecimal <- function(hex){
   # convert the input hexadecimal ISO format ABC.1234567ABC to decimal ISO format 123456789012345
@@ -71,7 +60,7 @@ ISO64bitRightToISODecimal <- function(hex){
   return(out)
 }
 
-#second stage, convert from decimal to all of the other formats
+#second stage, convert from ISO11784 15 digit decimal to all of the other formats
 ### 3 wrappers
 
 ISOdecimalToISOdothex <- function(dec){
