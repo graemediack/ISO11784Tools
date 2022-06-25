@@ -1,12 +1,14 @@
 Package: rISO11784
-Title: What the Package Does (One Line, Title Case)
+Title: ISO11784 PIT Tag ID Format Converters
 Version: 0.0.0.9000
 Authors@R: 
-    person("First", "Last", , "first.last@example.com", role = c("aut", "cre"),
-           comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
-License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
-    license
+    person("Graeme", "Diack", , "graemediack@hotmail.com.com", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0003-1023-4700"))
+Description: Some tools to assist with converting ISO11784 animal ID codes between 4 recognised formats commonly displayed on PIT tag readers.
+License: GPL-3
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.0
+Imports:
+  stringr,
+  stringi
