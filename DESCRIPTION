@@ -1,4 +1,4 @@
-Package: rISO11784
+Package: ISO11784Tools
 Title: ISO11784 PIT Tag ID Format Converters
 Version: 0.0.0.9000
 Authors@R: 
