@@ -11,23 +11,26 @@
 ISOdecimalToISOdothex <- function(dec){
   out <- c()
   for(i in dec){
-    if(nchar(i) > 15){
-      stop(paste0("Format does not meet ISO11784/5 standard - More than 15 digits: ",i))
+    if(nchar(i) != 15){
+      warning(paste0("Format does not meet ISO11784/5 standard - Not 15 digits: ",i))
+      out <- append(out,NA)
+    }else if(as.numeric(stringr::str_sub(i,4,15)) > 274877906943){
+      warning(paste0("Format does not meet ISO11784/5 standard - Animal ID exceeds max (274877906943/38bits): ",stringr::str_sub(i,4,15)))
+      out <- append(out,NA)
+    }else{
+      # convert the input integer to hexadecimal ISO format ABC.1234567ABC
+      manufacturer <- stringr::str_sub(i,1,3) # split the input value to 3/12
+      animalID <- stringr::str_sub(i,4,15) # split the input value to 3/12
+
+      # calculations LEFT
+      manufacturer <- dec2hex(manufacturer)
+      # calculations RIGHT
+      animalID <- dec2hex(animalID)
+      # Leading zero's are removed in this process and need added back on, animalID only
+      animalID <- stringr::str_pad(string = animalID,width = 10,side = 'left',pad = '0')
+      # return finished hexadecimal string
+      out <- append(out,stringr::str_to_upper(paste0(manufacturer,'.',animalID)))
     }
-    # convert the input integer to hexadecimal ISO format ABC.1234567ABC
-    manufacturer <- stringr::str_sub(i,1,3) # split the input value to 3/12
-    animalID <- stringr::str_sub(i,4,15) # split the input value to 3/12
-    if(as.numeric(animalID) > 274877906943){
-      stop(paste0("Format does not meet ISO11784/5 standard - Animal ID exceeds max (274877906943/38bits): ",animalID))
-    }
-    # calculations LEFT
-    manufacturer <- dec2hex(manufacturer)
-    # calculations RIGHT
-    animalID <- dec2hex(animalID)
-    # Leading zero's are removed in this process and need added back on, animalID only
-    animalID <- stringr::str_pad(string = animalID,width = 10,side = 'left',pad = '0')
-    # return finished hexadecimal string
-    out <- append(out,stringr::str_to_upper(paste0(manufacturer,'.',animalID)))
   }
   return(out)
 }
@@ -41,20 +44,23 @@ ISOdecimalToISOdothex <- function(dec){
 ISODecimalToISO64bitLeft <- function(dec){
   out <- c()
   for(i in dec){
-    if(nchar(i) > 15){
-      stop(paste0("Format does not meet ISO11784/5 standard - More than 15 digits: ",i))
-    }
-    manufacturer <- stringr::str_sub(i,1,3) # split the input value to 3/12
-    animalID <- stringr::str_sub(i,4,15) # split the input value to 3/12
-    if(as.numeric(animalID) > 274877906943){
-      stop(paste0("Format does not meet ISO11784/5 standard - Animal ID exceeds max (274877906943/38bits): ",animalID))
-    }
-    manufacturer <- stringr::str_pad(dec2bin(manufacturer),width = 10,pad = "0",side = 'left')
-    animalID <- stringr::str_pad(dec2bin(animalID),width = 38,pad = "0",side = 'left')
+    if(nchar(i) != 15){
+      warning(paste0("Format does not meet ISO11784/5 standard - Not 15 digits: ",i))
+      out <- append(out,NA)
+    }else if(as.numeric(stringr::str_sub(i,4,15)) > 274877906943){
+      warning(paste0("Format does not meet ISO11784/5 standard - Animal ID exceeds max (274877906943/38bits): ",stringr::str_sub(i,4,15)))
+      out <- append(out,NA)
+    }else{
+      manufacturer <- stringr::str_sub(i,1,3) # split the input value to 3/12
+      animalID <- stringr::str_sub(i,4,15) # split the input value to 3/12
 
-    ISO64bitLeft <- paste0('1000000000000000',manufacturer,animalID)
+      manufacturer <- stringr::str_pad(dec2bin(manufacturer),width = 10,pad = "0",side = 'left')
+      animalID <- stringr::str_pad(dec2bin(animalID),width = 38,pad = "0",side = 'left')
 
-    out <- append(out,stringr::str_to_upper(bin2hex(ISO64bitLeft)))
+      ISO64bitLeft <- paste0('1000000000000000',manufacturer,animalID)
+
+      out <- append(out,stringr::str_to_upper(bin2hex(ISO64bitLeft)))
+    }
   }
   return(out)
 }
@@ -68,19 +74,22 @@ ISODecimalToISO64bitLeft <- function(dec){
 ISODecimalToISO64bitRight <- function(dec){
   out <- c()
   for(i in dec){
-    if(nchar(i) > 15){
-      stop(paste0("Format does not meet ISO11784/5 standard - More than 15 digits: ",i))
+    if(nchar(i) != 15){
+      warning(paste0("Format does not meet ISO11784/5 standard - Not 15 digits: ",i))
+      out <- append(out,NA)
+    }else if(as.numeric(stringr::str_sub(i,4,15)) > 274877906943){
+      warning(paste0("Format does not meet ISO11784/5 standard - Animal ID exceeds max (274877906943/38bits): ",stringr::str_sub(i,4,15)))
+      out <- append(out,NA)
+    }else{
+      manufacturer <- stringr::str_sub(i,1,3) # split the input value to 3/12
+      animalID <- stringr::str_sub(i,4,15) # split the input value to 3/12
+
+      manufacturer <- stringr::str_pad(dec2bin(manufacturer),width = 10,pad = "0",side = 'left')
+      animalID <- stringr::str_pad(dec2bin(animalID),width = 38,pad = "0",side = 'left')
+      ISO64bitLeft <- paste0('1000000000000000',manufacturer,animalID)
+      ISO64bitRight <- stringi::stri_reverse(ISO64bitLeft)
+      out <- append(out,stringr::str_to_upper(bin2hex(ISO64bitRight)))
     }
-    manufacturer <- stringr::str_sub(i,1,3) # split the input value to 3/12
-    animalID <- stringr::str_sub(i,4,15) # split the input value to 3/12
-    if(as.numeric(animalID) > 274877906943){
-      stop(paste0("Format does not meet ISO11784/5 standard - Animal ID exceeds max (274877906943/38bits): ",animalID))
-    }
-    manufacturer <- stringr::str_pad(dec2bin(manufacturer),width = 10,pad = "0",side = 'left')
-    animalID <- stringr::str_pad(dec2bin(animalID),width = 38,pad = "0",side = 'left')
-    ISO64bitLeft <- paste0('1000000000000000',manufacturer,animalID)
-    ISO64bitRight <- stringi::stri_reverse(ISO64bitLeft)
-    out <- append(out,stringr::str_to_upper(bin2hex(ISO64bitRight)))
   }
   return(out)
 }
