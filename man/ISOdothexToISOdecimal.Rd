@@ -5,10 +5,10 @@
 \title{Main functions for converting from other formats TO ISO11784 15 Digit Decimal
 These are wrappers for the functions in baseConverters.R}
 \usage{
-ISOdothexToISOdecimal(hex)
+ISOdothexToISOdecimal(.data)
 }
 \arguments{
-\item{hex}{A vector of Dot Hexadecimal format strings.}
+\item{.data}{A vector of Dot Hexadecimal format strings.}
 }
 \value{
 A vector of ISO11784 15 Digit Decimal format strings.

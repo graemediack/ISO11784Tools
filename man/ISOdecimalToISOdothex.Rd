@@ -3,20 +3,17 @@
 \name{ISOdecimalToISOdothex}
 \alias{ISOdecimalToISOdothex}
 \title{Main functions for converting from ISO11784 15 Digit Decimal to other formats
-These are wrappers for the functions in baseConverters.R
-ISO11784 15 Digit Decimal format To ISO11784 Dot Hexadecimal}
+These are wrappers for the functions in baseConverters.R}
 \usage{
-ISOdecimalToISOdothex(dec)
+ISOdecimalToISOdothex(.data)
 }
 \arguments{
-\item{dec}{A vector of ISO11784 15 Digit Decimal format strings.}
+\item{.data}{A vector of ISO11784 15 Digit Decimal format strings.}
 }
 \value{
 A vector of Dot Hexadecimal format strings.
 }
 \description{
-Main functions for converting from ISO11784 15 Digit Decimal to other formats
-These are wrappers for the functions in baseConverters.R
 ISO11784 15 Digit Decimal format To ISO11784 Dot Hexadecimal
 }
 \examples{

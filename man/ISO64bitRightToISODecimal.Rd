@@ -4,10 +4,10 @@
 \alias{ISO64bitRightToISODecimal}
 \title{ISO 11784 Raw Hexadecimal format, animal ID on the RIGHT, To ISO11784 15 Digit Decimal}
 \usage{
-ISO64bitRightToISODecimal(hex)
+ISO64bitRightToISODecimal(.data)
 }
 \arguments{
-\item{hex}{A vector of Raw Hexadecimal format strings.}
+\item{.data}{A vector of Raw Hexadecimal format strings.}
 }
 \value{
 A vector of ISO11784 15 Digit Decimal format strings.
