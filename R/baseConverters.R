@@ -13,7 +13,7 @@ hex2dec <- function(hex){
     stop('hex2dec function only accepts a single number')
   }
   hexVector <- stringr::str_split(hex,'',simplify = F)[[1]]
-  if(length(hexVector) > 14 | (length(hexVector) == 14 & sum(as.numeric(hexVector),na.rm = T) > 4)){
+  if(length(hexVector) > 14 | (length(hexVector) == 14 & sum(as.numeric(hexVector[stringr::str_detect(hexVector,"[0-9]")]),na.rm = T) > 4)){
     stop(paste0(hex,' is too large for this package, sorry! (max = "40000000000000")'))
   }else{
     pow <- (length(hexVector)-1):0
@@ -50,7 +50,7 @@ bin2dec <- function(bin){
     if(length(binVector) > 54){
       stop(paste0('Binary number is too large for this package, sorry!(',length(binVector),'bit, max is 54bit)'))
     }else{
-      powerSeq <- seq(nchar(bin)-1,0)
+      powerSeq <- seq(length(binVector)-1,0)
       dec <- 0
       for(i in 1:length(binVector)){
         dec <- dec + (strtoi(binVector[i]) * (2**powerSeq[i]))
