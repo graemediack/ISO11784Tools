@@ -29,7 +29,7 @@ ISOdecimalToISOdothex <- function(.data){
       out <- append(out,stringr::str_to_upper(paste0(manufacturer,'.',animalID)))
     }
   }
-  return(out)
+  out
 }
 
 #' ISO11784 15 Digit Decimal format To ISO11784 Raw Hexadecimal format, animal ID on the LEFT
@@ -56,7 +56,7 @@ ISODecimalToISO64bitLeft <- function(.data){
       out <- append(out,stringr::str_to_upper(bin2hex(ISO64bitLeft)))
     }
   }
-  return(out)
+  out
 }
 
 #' ISO11784 15 Digit Decimal format To ISO11784 Raw Hexadecimal format, animal ID on the RIGHT
@@ -82,5 +82,5 @@ ISODecimalToISO64bitRight <- function(.data){
       out <- append(out,stringr::str_to_upper(bin2hex(ISO64bitRight)))
     }
   }
-  return(out)
+  out
 }
