@@ -22,7 +22,7 @@ hex2dec <- function(hex){
       dec <- dec + as.numeric((strtoi(hexVector[x],16)*(16**pow[x])))
     }
   }
-  return(dec)
+  as.character(dec)
 }
 
 
@@ -56,7 +56,7 @@ bin2dec <- function(bin){
         dec <- dec + (strtoi(binVector[i]) * (2**powerSeq[i]))
       }
     }
-    return(as.character(dec))
+    as.character(dec)
   }
 }
 
@@ -89,7 +89,7 @@ dec2hex <- function(dec){
     hex <- append(hex, as.character(as.hexmode(dec%%16)),after = 0)
     dec <- dec%/%16
   }
-  return(paste0(hex,collapse = ""))
+  paste0(hex,collapse = "")
 }
 
 #' Hexadecimal to Binary converter
@@ -100,8 +100,7 @@ dec2hex <- function(dec){
 #' @examples
 #' hex2bin('ABC123')
 hex2bin <- function(hex){
-  out <- stringr::str_pad(dec2bin(hex2dec(hex)),width = nchar(hex)*4,pad = "0",side = 'left')
-  return(out)
+  stringr::str_pad(dec2bin(hex2dec(hex)),width = nchar(hex)*4,pad = "0",side = 'left')
 }
 
 #' Binary to Hexadecimal converter
@@ -120,5 +119,5 @@ bin2hex <- function(bin){
                                     length=4) # convert to nibbles (4 bit chunks)
   dec <- strtoi(binClustered,2)
   hex <- as.hexmode(dec)
-  return(paste0(hex,collapse = ""))
+  paste0(hex,collapse = "")
 }

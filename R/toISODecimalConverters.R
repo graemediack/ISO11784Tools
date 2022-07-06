@@ -29,7 +29,7 @@ ISOdothexToISOdecimal <- function(.data){
       out <- append(out,paste0(manufacturer,animalID))
     }
   }
-  return(out)
+  out
 }
 
 #' ISO 11784 Raw Hexadecimal format, animal ID on the LEFT, To ISO11784 15 Digit Decimal
@@ -54,7 +54,7 @@ ISO64bitLeftToISODecimal <- function(.data){
       out <- append(out,paste0(manufacturer,animalID))
     }
   }
-  return(out)
+  out
 }
 
 #' ISO 11784 Raw Hexadecimal format, animal ID on the RIGHT, To ISO11784 15 Digit Decimal
@@ -80,5 +80,5 @@ ISO64bitRightToISODecimal <- function(.data){
       out <- append(out,paste0(manufacturer,animalID))
     }
   }
-  return(out)
+  out
 }

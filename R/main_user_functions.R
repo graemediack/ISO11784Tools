@@ -44,7 +44,7 @@ get_iso11784_format <- function(.data){
       }
     }else{out <- append(out,'unknown')}
   }
-  return(out)
+  out
 }
 
 
@@ -69,7 +69,7 @@ convert_to_isodecimal <- function(.data){
       out <- append(out,NA)
     }
   }
-  return(out)
+  out
 }
 
 
@@ -94,7 +94,7 @@ convert_to_isodothex <- function(.data){
       out <- append(out,NA)
     }
   }
-  return(out)
+  out
 }
 
 
@@ -119,7 +119,7 @@ convert_to_iso64bitl <- function(.data){
       out <- append(out,NA)
     }
   }
-  return(out)
+  out
 }
 
 
@@ -144,5 +144,5 @@ convert_to_iso64bitr <- function(.data){
       out <- append(out,NA)
     }
   }
-  return(out)
+  out
 }
