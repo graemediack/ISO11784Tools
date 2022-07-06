@@ -2,7 +2,7 @@
 % Please edit documentation in R/main_user_functions.R
 \name{get_iso11784_format}
 \alias{get_iso11784_format}
-\title{Main package functions intended for users}
+\title{ISO11784 Pattern detection routine to identify (guess!) the input format}
 \usage{
 get_iso11784_format(.data)
 }
@@ -13,7 +13,7 @@ get_iso11784_format(.data)
 One of 5 formats: c('unknown', 'isodecimal', 'isodothex','iso64bitl', 'iso64bitr')
 }
 \description{
-ISO 11784 Pattern detection routine to identify (guess!) the input format
+ISO11784 Pattern detection routine to identify (guess!) the input format
 }
 \examples{
 get_iso11784_format(c('3DD.ABC4567890'))

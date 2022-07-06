@@ -1,8 +1,4 @@
-#' Main package functions intended for users
-#'
-
-
-#' ISO 11784 Pattern detection routine to identify (guess!) the input format
+#' ISO11784 Pattern detection routine to identify (guess!) the input format
 #' @param .data A vector of character strings
 #' @return One of 5 formats: c('unknown', 'isodecimal', 'isodothex','iso64bitl', 'iso64bitr')
 #' @export
