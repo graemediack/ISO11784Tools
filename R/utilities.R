@@ -15,7 +15,7 @@ get_iso11784_format <- function(.data){
   out <- c()
   for(id in .data){
     if(stringr::str_detect(id,ISOdothex)){
-      if(hex2dec(stringr::str_sub(id,5,14)) > 274877906943){ # this number is the biggest 38 bit binary number, animal ID cannot be larger than 38 bits
+      if(hexadecimal_to_decimal(stringr::str_sub(id,5,14)) > 274877906943){ # this number is the biggest 38 bit binary number, animal ID cannot be larger than 38 bits
         out <- append(out,'unknown')
       }else{
         out <- append(out,'ISOdothex')

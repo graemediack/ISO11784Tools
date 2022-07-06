@@ -1,16 +1,12 @@
-#' Base Converters
-#' These functions are used by the main ISO11784 converters to switch between bases 2, 10 and 16
-
-
 #' Hexadecimal to Decimal converter
 #' @param hex A single hexadecimal number as a string. Max '40000000000000'
 #' @return A single decimal number as a string
 #' @export
 #' @examples
-#' hex2dec('ABC123')
-hex2dec <- function(hex){
+#' hexadecimal_to_decimal('ABC123')
+hexadecimal_to_decimal <- function(hex){
   if(length(hex) > 1){
-    stop('hex2dec function only accepts a single number')
+    stop('hexadecimal_to_decimal function only accepts a single number')
   }
   hexVector <- stringr::str_split(hex,'',simplify = F)[[1]]
   if(length(hexVector) > 14 | (length(hexVector) == 14 & sum(as.numeric(hexVector[stringr::str_detect(hexVector,"[0-9]")]),na.rm = T) > 4)){
@@ -27,16 +23,14 @@ hex2dec <- function(hex){
 
 
 #' Binary to Decimal converter
-#' Will not work on binary numbers longer than 54bits. R integer maxes out at .Machine$integer.max, but
-#' R will sum up to 18014398509481984, or 54bits, as long as it is not stored as an integer object.
-#' @param bin A single binary number as a string with nchar(bin) <= 54
+#' @param bin A single binary number as a string - nchar(bin) <= 54
 #' @return A single decimal number as a string
 #' @export
 #' @examples
-#' bin2dec('1001100')
-bin2dec <- function(bin){
+#' binary_to_decimal('1001100')
+binary_to_decimal <- function(bin){
   if(length(bin) > 1){
-    stop('bin2dec function only accepts a single number')
+    stop('binary_to_decimal function only accepts a single number')
   }
   if(stringr::str_count(bin,'1')+stringr::str_count(bin,'0') != nchar(bin)){
     stop(paste0(bin,' contains non-binary digits or characters'))
@@ -65,8 +59,8 @@ bin2dec <- function(bin){
 #' @return A single binary number as a string
 #' @export
 #' @examples
-#' dec2bin('1234')
-dec2bin <- function(dec){
+#' decimal_to_binary('1234')
+decimal_to_binary <- function(dec){
   dec <- as.numeric(dec)
   bin <- c() # initialise empty vector to capture binary characters
   while(dec != 0){
@@ -81,8 +75,8 @@ dec2bin <- function(dec){
 #' @return A single hexadecimal number as a string
 #' @export
 #' @examples
-#' dec2hex('1234')
-dec2hex <- function(dec){
+#' decimal_to_hexadecimal('1234')
+decimal_to_hexadecimal <- function(dec){
   dec <- as.numeric(dec)
   hex <- c() # initialise empty vector to capture hex characters
   while(dec != 0){
@@ -93,14 +87,14 @@ dec2hex <- function(dec){
 }
 
 #' Hexadecimal to Binary converter
-#' This is simply a wrapper for dec2bin and hex2dec
+#' This is simply a wrapper for decimal_to_binary and hexadecimal_to_decimal
 #' @param hex A single hexadecimal number as a string
 #' @return A single binary number as a string
 #' @export
 #' @examples
-#' hex2bin('ABC123')
-hex2bin <- function(hex){
-  stringr::str_pad(dec2bin(hex2dec(hex)),width = nchar(hex)*4,pad = "0",side = 'left')
+#' hexadecimal_to_binary('ABC123')
+hexadecimal_to_binary <- function(hex){
+  stringr::str_pad(decimal_to_binary(hexadecimal_to_decimal(hex)),width = nchar(hex)*4,pad = "0",side = 'left')
 }
 
 #' Binary to Hexadecimal converter
@@ -108,12 +102,12 @@ hex2bin <- function(hex){
 #' @return A single hexadecimal number as a string
 #' @export
 #' @examples
-#' bin2hex('1001101')
-bin2hex <- function(bin){
+#' binary_to_hexadecimal('1001101')
+binary_to_hexadecimal <- function(bin){
   binPadded <- stringr::str_pad(string = bin,
                                 width = nchar(bin)+nchar(bin)%%4,
                                 side = 'left',
-                                pad = '0') # make sure binary string is divisible by 4
+                                pad = '0') # ensure binary string has whole nibbles
   binClustered <- stringi::stri_sub(binPadded,
                                     seq(1,nchar(binPadded),by=4),
                                     length=4) # convert to nibbles (4 bit chunks)

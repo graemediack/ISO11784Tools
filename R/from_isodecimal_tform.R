@@ -20,9 +20,9 @@ ISOdecimalToISOdothex <- function(.data){
       animalID <- stringr::str_sub(i,4,15) # split the input value to 3/12
 
       # calculations LEFT
-      manufacturer <- dec2hex(manufacturer)
+      manufacturer <- decimal_to_hexadecimal(manufacturer)
       # calculations RIGHT
-      animalID <- dec2hex(animalID)
+      animalID <- decimal_to_hexadecimal(animalID)
       # Leading zero's are removed in this process and need added back on, animalID only
       animalID <- stringr::str_pad(string = animalID,width = 10,side = 'left',pad = '0')
       # return finished hexadecimal string
@@ -48,12 +48,12 @@ ISODecimalToISO64bitLeft <- function(.data){
       manufacturer <- stringr::str_sub(i,1,3) # split the input value to 3/12
       animalID <- stringr::str_sub(i,4,15) # split the input value to 3/12
 
-      manufacturer <- stringr::str_pad(dec2bin(manufacturer),width = 10,pad = "0",side = 'left')
-      animalID <- stringr::str_pad(dec2bin(animalID),width = 38,pad = "0",side = 'left')
+      manufacturer <- stringr::str_pad(decimal_to_binary(manufacturer),width = 10,pad = "0",side = 'left')
+      animalID <- stringr::str_pad(decimal_to_binary(animalID),width = 38,pad = "0",side = 'left')
 
       ISO64bitLeft <- paste0('1000000000000000',manufacturer,animalID)
 
-      out <- append(out,stringr::str_to_upper(bin2hex(ISO64bitLeft)))
+      out <- append(out,stringr::str_to_upper(binary_to_hexadecimal(ISO64bitLeft)))
     }
   }
   out
@@ -75,11 +75,11 @@ ISODecimalToISO64bitRight <- function(.data){
       manufacturer <- stringr::str_sub(i,1,3) # split the input value to 3/12
       animalID <- stringr::str_sub(i,4,15) # split the input value to 3/12
 
-      manufacturer <- stringr::str_pad(dec2bin(manufacturer),width = 10,pad = "0",side = 'left')
-      animalID <- stringr::str_pad(dec2bin(animalID),width = 38,pad = "0",side = 'left')
+      manufacturer <- stringr::str_pad(decimal_to_binary(manufacturer),width = 10,pad = "0",side = 'left')
+      animalID <- stringr::str_pad(decimal_to_binary(animalID),width = 38,pad = "0",side = 'left')
       ISO64bitLeft <- paste0('1000000000000000',manufacturer,animalID)
       ISO64bitRight <- stringi::stri_reverse(ISO64bitLeft)
-      out <- append(out,stringr::str_to_upper(bin2hex(ISO64bitRight)))
+      out <- append(out,stringr::str_to_upper(binary_to_hexadecimal(ISO64bitRight)))
     }
   }
   out
