@@ -2,7 +2,7 @@
 % Please edit documentation in R/main_user_functions.R
 \name{get_iso11784_format}
 \alias{get_iso11784_format}
-\title{ISO 11784 Pattern detection routine to identify (guess!) the input format}
+\title{Main package functions intended for users}
 \usage{
 get_iso11784_format(.data)
 }
@@ -13,13 +13,8 @@ get_iso11784_format(.data)
 One of 5 formats: c('unknown', 'isodecimal', 'isodothex','iso64bitl', 'iso64bitr')
 }
 \description{
-isodecimal - 15 digit, first 3 are manufacturer, remaining 12 are ID NOTE need to drop leading 0's from 12 when converting "^[0-9]{15}$"
-this format may have a separator between the first 3 and last 12 digits :(
-isodothex 'dot' format, first 3 before . are manufacturer, remaining 10 are ID "^[:xdigit:]{3}[\\.]{1}[:xdigit:]{10}$"
-iso64bitl/iso64bitr 'raw' format, 16 character hexadecimal (64 bits), with the animal tag bit on the left or right
-this format is tricky as a hexadecimal number can look just like a pure decimal number
-but a tell tale sign is the 8000 at the beginning or 0001 at the end + at least 1 alphanumeric character just to be sure (not fool proof)
+ISO 11784 Pattern detection routine to identify (guess!) the input format
 }
 \examples{
-get_format(c('3DD.ABC4567890'))
+get_iso11784_format(c('3DD.ABC4567890'))
 }
