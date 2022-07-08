@@ -14,31 +14,35 @@ get_iso11784_format <- function(.data){
 
   out <- c()
   for(id in .data){
-    if(stringr::str_detect(id,ISOdothex)){
-      if(hexadecimal_to_decimal(stringr::str_sub(id,5,14)) > 274877906943){ # this number is the biggest 38 bit binary number, animal ID cannot be larger than 38 bits
-        out <- append(out,'unknown')
-      }else{
-        out <- append(out,'ISOdothex')
-      }
-    }else  if(stringr::str_detect(id,ISOdecimal)){
-      if(as.numeric(stringr::str_sub(id,4,-1)) > 274877906943){ # this number is the biggest 38 bit binary number, animal ID cannot be larger than 38 bits
-        out <- append(out,'unknown')
-      }else{
-        out <- append(out,'ISOdecimal')
-      }
-    }else if(stringr::str_detect(id,ISO64bitl)){
-      if(stringr::str_detect(id,"[a-fA-F]")){
-        out <- append(out,'ISO64bitl')
-      }else{
-        out <- append(out,'unknown')
-      }
-    }else if(stringr::str_detect(id,ISO64bitr)){
-      if(stringr::str_detect(id,"[a-fA-F]")){
-        out <- append(out,'ISO64bitr')
-      }else{
-        out <- append(out,'unknown')
-      }
-    }else{out <- append(out,'unknown')}
+    if(is.na(id)){
+      out <- append(out,'unknown')
+    }else{
+      if(stringr::str_detect(id,ISOdothex)){
+        if(hexadecimal_to_decimal(stringr::str_sub(id,5,14)) > 274877906943){ # this number is the biggest 38 bit binary number, animal ID cannot be larger than 38 bits
+          out <- append(out,'unknown')
+        }else{
+          out <- append(out,'ISOdothex')
+        }
+      }else if(stringr::str_detect(id,ISOdecimal)){
+        if(as.numeric(stringr::str_sub(id,4,-1)) > 274877906943){ # this number is the biggest 38 bit binary number, animal ID cannot be larger than 38 bits
+          out <- append(out,'unknown')
+        }else{
+          out <- append(out,'ISOdecimal')
+        }
+      }else if(stringr::str_detect(id,ISO64bitl)){
+        if(stringr::str_detect(id,"[a-fA-F]")){
+          out <- append(out,'ISO64bitl')
+        }else{
+          out <- append(out,'unknown')
+        }
+      }else if(stringr::str_detect(id,ISO64bitr)){
+        if(stringr::str_detect(id,"[a-fA-F]")){
+          out <- append(out,'ISO64bitr')
+        }else{
+          out <- append(out,'unknown')
+        }
+      }else{out <- append(out,'unknown')}
+    }
   }
   out
 }
@@ -51,21 +55,11 @@ get_iso11784_format <- function(.data){
 #' @examples
 #' convert_to_isodecimal(c('3E7.02DFDC1C35','8000F9C2DFDC1C36','EC383BFB439F0001'))
 convert_to_isodecimal <- function(.data){
-  out <- c()
-  for(id in .data){
-    if(get_iso11784_format(id) == 'ISOdecimal'){
-      out <- append(out,id)
-    }else if(get_iso11784_format(id) == 'ISOdothex'){
-      out <- append(out,ISOdothexToISOdecimal(id))
-    }else if(get_iso11784_format(id) == 'ISO64bitl'){
-      out <- append(out,ISO64bitLeftToISODecimal(id))
-    }else if(get_iso11784_format(id) == 'ISO64bitr'){
-      out <- append(out,ISO64bitRightToISODecimal(id))
-    }else{
-      out <- append(out,NA)
-    }
-  }
-  out
+  ISOdecimal <- ISOdothexToISOdecimal(ISOdecimalToISOdothex(.data))
+  ISOdothex <- ISOdothexToISOdecimal(.data)
+  ISO64bitLeft <- ISO64bitLeftToISODecimal(.data)
+  ISO64bitRight <- ISO64bitRightToISODecimal(.data)
+  dplyr::coalesce(ISOdecimal,ISOdothex,ISO64bitLeft,ISO64bitRight)
 }
 
 
@@ -76,21 +70,11 @@ convert_to_isodecimal <- function(.data){
 #' @examples
 #' convert_to_isodothex(c('999012345678901','8000F9C2DFDC1C36','EC383BFB439F0001'))
 convert_to_isodothex <- function(.data){
-  out <- c()
-  for(id in .data){
-    if(get_iso11784_format(id) == 'ISOdothex'){
-      out <- append(out,id)
-    }else if(get_iso11784_format(id) == 'ISOdecimal'){
-      out <- append(out,ISOdecimalToISOdothex(id))
-    }else if(get_iso11784_format(id) == 'ISO64bitl'){
-      out <- append(out,ISOdecimalToISOdothex(ISO64bitLeftToISODecimal(id)))
-    }else if(get_iso11784_format(id) == 'ISO64bitr'){
-      out <- append(out,ISOdecimalToISOdothex(ISO64bitRightToISODecimal(id)))
-    }else{
-      out <- append(out,NA)
-    }
-  }
-  out
+  ISOdecimal <- ISOdecimalToISOdothex(.data)
+  ISOdothex <- ISOdecimalToISOdothex(ISOdothexToISOdecimal(.data))
+  ISO64bitLeft <- ISOdecimalToISOdothex(ISO64bitLeftToISODecimal(.data))
+  ISO64bitRight <- ISOdecimalToISOdothex(ISO64bitRightToISODecimal(.data))
+  dplyr::coalesce(ISOdecimal,ISOdothex,ISO64bitLeft,ISO64bitRight)
 }
 
 
@@ -101,21 +85,11 @@ convert_to_isodothex <- function(.data){
 #' @examples
 #' convert_to_iso64bitl(c('999012345678901','3E7.02DFDC1C36','EC383BFB439F0001'))
 convert_to_iso64bitl <- function(.data){
-  out <- c()
-  for(id in .data){
-    if(get_iso11784_format(id) == 'ISO64bitl'){
-      out <- append(out,id)
-    }else if(get_iso11784_format(id) == 'ISOdecimal'){
-      out <- append(out,ISODecimalToISO64bitLeft(id))
-    }else if(get_iso11784_format(id) == 'ISOdothex'){
-      out <- append(out,ISODecimalToISO64bitLeft(ISOdothexToISOdecimal(id)))
-    }else if(get_iso11784_format(id) == 'ISO64bitr'){
-      out <- append(out,ISODecimalToISO64bitLeft(ISO64bitRightToISODecimal(id)))
-    }else{
-      out <- append(out,NA)
-    }
-  }
-  out
+  ISOdecimal <- ISODecimalToISO64bitLeft(.data)
+  ISOdothex <- ISODecimalToISO64bitLeft(ISOdothexToISOdecimal(.data))
+  ISO64bitLeft <- ISODecimalToISO64bitLeft(ISO64bitLeftToISODecimal(.data))
+  ISO64bitRight <- ISODecimalToISO64bitLeft(ISO64bitRightToISODecimal(.data))
+  dplyr::coalesce(ISOdecimal,ISOdothex,ISO64bitLeft,ISO64bitRight)
 }
 
 
@@ -126,19 +100,9 @@ convert_to_iso64bitl <- function(.data){
 #' @examples
 #' convert_to_iso64bitr(c('999012345678901','8000F9C2DFDC1C36','3E7.02DFDC1C37'))
 convert_to_iso64bitr <- function(.data){
-  out <- c()
-  for(id in .data){
-    if(get_iso11784_format(id) == 'ISO64bitr'){
-      out <- append(out,id)
-    }else if(get_iso11784_format(id) == 'ISOdecimal'){
-      out <- append(out,ISODecimalToISO64bitRight(id))
-    }else if(get_iso11784_format(id) == 'ISO64bitl'){
-      out <- append(out,ISODecimalToISO64bitRight(ISO64bitLeftToISODecimal(id)))
-    }else if(get_iso11784_format(id) == 'ISOdothex'){
-      out <- append(out,ISODecimalToISO64bitRight(ISOdothexToISOdecimal(id)))
-    }else{
-      out <- append(out,NA)
-    }
-  }
-  out
+  ISOdecimal <- ISODecimalToISO64bitRight(.data)
+  ISOdothex <- ISODecimalToISO64bitRight(ISOdothexToISOdecimal(.data))
+  ISO64bitLeft <- ISODecimalToISO64bitRight(ISO64bitLeftToISODecimal(.data))
+  ISO64bitRight <- ISODecimalToISO64bitRight(ISO64bitRightToISODecimal(.data))
+  dplyr::coalesce(ISOdecimal,ISOdothex,ISO64bitLeft,ISO64bitRight)
 }
