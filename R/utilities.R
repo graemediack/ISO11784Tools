@@ -21,23 +21,23 @@ get_iso11784_format <- function(.data){
         if(hexadecimal_to_decimal(stringr::str_sub(id,5,14)) > 274877906943){ # this number is the biggest 38 bit binary number, animal ID cannot be larger than 38 bits
           out <- append(out,'unknown')
         }else{
-          out <- append(out,'ISOdothex')
+          out <- append(out,'isodothex')
         }
       }else if(stringr::str_detect(id,ISOdecimal)){
         if(as.numeric(stringr::str_sub(id,4,-1)) > 274877906943){ # this number is the biggest 38 bit binary number, animal ID cannot be larger than 38 bits
           out <- append(out,'unknown')
         }else{
-          out <- append(out,'ISOdecimal')
+          out <- append(out,'isodecimal')
         }
       }else if(stringr::str_detect(id,ISO64bitl)){
         if(stringr::str_detect(id,"[a-fA-F]")){
-          out <- append(out,'ISO64bitl')
+          out <- append(out,'iso64bitl')
         }else{
           out <- append(out,'unknown')
         }
       }else if(stringr::str_detect(id,ISO64bitr)){
         if(stringr::str_detect(id,"[a-fA-F]")){
-          out <- append(out,'ISO64bitr')
+          out <- append(out,'iso64bitr')
         }else{
           out <- append(out,'unknown')
         }
@@ -55,10 +55,10 @@ get_iso11784_format <- function(.data){
 #' @examples
 #' convert_to_isodecimal(c('3E7.02DFDC1C35','8000F9C2DFDC1C36','EC383BFB439F0001'))
 convert_to_isodecimal <- function(.data){
-  ISOdecimal <- ISOdothexToISOdecimal(ISOdecimalToISOdothex(.data))
-  ISOdothex <- ISOdothexToISOdecimal(.data)
-  ISO64bitLeft <- ISO64bitLeftToISODecimal(.data)
-  ISO64bitRight <- ISO64bitRightToISODecimal(.data)
+  ISOdecimal <- isodothex_to_isodecimal(isodecimal_to_isodothex(.data))
+  ISOdothex <- isodothex_to_isodecimal(.data)
+  ISO64bitLeft <- iso64bitleft_to_isodecimal(.data)
+  ISO64bitRight <- iso64bitright_to_isodecimal(.data)
   dplyr::coalesce(ISOdecimal,ISOdothex,ISO64bitLeft,ISO64bitRight)
 }
 
@@ -70,10 +70,10 @@ convert_to_isodecimal <- function(.data){
 #' @examples
 #' convert_to_isodothex(c('999012345678901','8000F9C2DFDC1C36','EC383BFB439F0001'))
 convert_to_isodothex <- function(.data){
-  ISOdecimal <- ISOdecimalToISOdothex(.data)
-  ISOdothex <- ISOdecimalToISOdothex(ISOdothexToISOdecimal(.data))
-  ISO64bitLeft <- ISOdecimalToISOdothex(ISO64bitLeftToISODecimal(.data))
-  ISO64bitRight <- ISOdecimalToISOdothex(ISO64bitRightToISODecimal(.data))
+  ISOdecimal <- isodothex_to_isodecimal(.data)
+  ISOdothex <- isodothex_to_isodecimal(ISOdothexToISOdecimal(.data))
+  ISO64bitLeft <- isodothex_to_isodecimal(iso64bitleft_to_isodecimal(.data))
+  ISO64bitRight <- isodothex_to_isodecimal(iso64bitright_to_isodecimal(.data))
   dplyr::coalesce(ISOdecimal,ISOdothex,ISO64bitLeft,ISO64bitRight)
 }
 
@@ -85,10 +85,10 @@ convert_to_isodothex <- function(.data){
 #' @examples
 #' convert_to_iso64bitl(c('999012345678901','3E7.02DFDC1C36','EC383BFB439F0001'))
 convert_to_iso64bitl <- function(.data){
-  ISOdecimal <- ISODecimalToISO64bitLeft(.data)
-  ISOdothex <- ISODecimalToISO64bitLeft(ISOdothexToISOdecimal(.data))
-  ISO64bitLeft <- ISODecimalToISO64bitLeft(ISO64bitLeftToISODecimal(.data))
-  ISO64bitRight <- ISODecimalToISO64bitLeft(ISO64bitRightToISODecimal(.data))
+  ISOdecimal <- isodecimal_to_iso64bitleft(.data)
+  ISOdothex <- isodecimal_to_iso64bitleft(isodothex_to_isodecimal(.data))
+  ISO64bitLeft <- isodecimal_to_iso64bitleft(iso64bitleft_to_isodecimal(.data))
+  ISO64bitRight <- isodecimal_to_iso64bitleft(iso64bitright_to_isodecimal(.data))
   dplyr::coalesce(ISOdecimal,ISOdothex,ISO64bitLeft,ISO64bitRight)
 }
 
@@ -100,9 +100,9 @@ convert_to_iso64bitl <- function(.data){
 #' @examples
 #' convert_to_iso64bitr(c('999012345678901','8000F9C2DFDC1C36','3E7.02DFDC1C37'))
 convert_to_iso64bitr <- function(.data){
-  ISOdecimal <- ISODecimalToISO64bitRight(.data)
-  ISOdothex <- ISODecimalToISO64bitRight(ISOdothexToISOdecimal(.data))
-  ISO64bitLeft <- ISODecimalToISO64bitRight(ISO64bitLeftToISODecimal(.data))
-  ISO64bitRight <- ISODecimalToISO64bitRight(ISO64bitRightToISODecimal(.data))
+  ISOdecimal <- isodecimal_to_iso64bitright(.data)
+  ISOdothex <- isodecimal_to_iso64bitright(isodothex_to_isodecimal(.data))
+  ISO64bitLeft <- isodecimal_to_iso64bitright(iso64bitleft_to_isodecimal(.data))
+  ISO64bitRight <- isodecimal_to_iso64bitright(iso64bitright_to_isodecimal(.data))
   dplyr::coalesce(ISOdecimal,ISOdothex,ISO64bitLeft,ISO64bitRight)
 }

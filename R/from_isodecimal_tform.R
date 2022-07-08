@@ -3,8 +3,8 @@
 #' @return A vector of Dot Hexadecimal format strings.
 #' @export
 #' @examples
-#' ISOdecimalToISOdothex(c('989737733408912'))
-ISOdecimalToISOdothex <- function(.data){
+#' isodecimal_to_isodothex(c('989737733408912'))
+isodecimal_to_isodothex <- function(.data){
   out <- c()
   for(i in .data){
     if(ISO11784Tools::get_iso11784_format(i) != 'ISOdecimal'){
@@ -33,8 +33,8 @@ ISOdecimalToISOdothex <- function(.data){
 #' @return A vector of Raw Hexadecimal format strings.
 #' @export
 #' @examples
-#' ISODecimalToISO64bitLeft(c('989737733408912'))
-ISODecimalToISO64bitLeft <- function(.data){
+#' isodecimal_to_iso64bitleft(c('989737733408912'))
+isodecimal_to_iso64bitleft <- function(.data){
   out <- c()
   for(i in .data){
     if(ISO11784Tools::get_iso11784_format(i) != 'ISOdecimal'){
@@ -79,8 +79,8 @@ ISODecimalToISO64bitLeft <- function(.data){
 #' @return A vector of Raw Hexadecimal format strings.
 #' @export
 #' @examples
-#' ISODecimalToISO64bitRight(c('989737733408912'))
-ISODecimalToISO64bitRight <- function(.data){
+#' isodecimal_to_iso64bitright(c('989737733408912'))
+isodecimal_to_iso64bitright <- function(.data){
   out <- c()
   for(i in .data){
     if(ISO11784Tools::get_iso11784_format(i) != 'ISOdecimal'){

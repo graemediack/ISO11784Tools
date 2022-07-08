@@ -3,13 +3,13 @@
 #' @return A vector of ISO11784 15 Digit Decimal format strings.
 #' @export
 #' @examples
-#' ISOdothexToISOdecimal(c('3DD.ABC4567890'))
+#' isodothex_to_isodecimal(c('3DD.ABC4567890'))
 
-ISOdothexToISOdecimal <- function(.data){
+isodothex_to_isodecimal <- function(.data){
   out <- c()
   for(i in .data){
-    if(ISO11784Tools::get_iso11784_format(i) != 'ISOdothex'){
-      warning("Unexpected format does not match ISOdothex")
+    if(ISO11784Tools::get_iso11784_format(i) != 'isodothex'){
+      warning("Unexpected format does not match isodothex")
       out <- append(out,NA)
     }else{
       # extract manufacturer (left) and animal id (right) components
@@ -32,12 +32,12 @@ ISOdothexToISOdecimal <- function(.data){
 #' @return A vector of ISO11784 15 Digit Decimal format strings.
 #' @export
 #' @examples
-#' ISO64bitLeftToISODecimal(c('8000ABCDEF123456'))
-ISO64bitLeftToISODecimal <- function(.data){
+#' iso64bitleft_to_isodecimal(c('8000ABCDEF123456'))
+iso64bitleft_to_isodecimal <- function(.data){
   out <- c()
   for(i in .data){
-    if(ISO11784Tools::get_iso11784_format(i) != 'ISO64bitl'){
-      warning("Unexpected format does not match ISO64bitl")
+    if(ISO11784Tools::get_iso11784_format(i) != 'iso64bitl'){
+      warning("Unexpected format does not match iso64bitl")
       out <- append(out,NA)
     }else{
       # part the hex string into manufacturer chunk (10 bits following the left most 16) and animal ID (the right most 38 bits)
@@ -57,12 +57,12 @@ ISO64bitLeftToISODecimal <- function(.data){
 #' @return A vector of ISO11784 15 Digit Decimal format strings.
 #' @export
 #' @examples
-#' ISO64bitRightToISODecimal(c('ABCDEF1234560001'))
-ISO64bitRightToISODecimal <- function(.data){
+#' iso64bitright_to_isodecimal(c('ABCDEF1234560001'))
+iso64bitright_to_isodecimal <- function(.data){
   out <- c()
   for(i in .data){
-    if(ISO11784Tools::get_iso11784_format(i) != 'ISO64bitr'){
-      warning("Unexpected format does not match ISO64bitr")
+    if(ISO11784Tools::get_iso11784_format(i) != 'iso64bitr'){
+      warning("Unexpected format does not match iso64bitr")
       out <- append(out,NA)
     }else{
       # part the hex string into manufacturer chunk (10 bits following the right most 16) and animal ID (the left most 38 bits)

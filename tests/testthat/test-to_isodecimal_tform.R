@@ -9,13 +9,13 @@ df <- data.frame(isodecimal = c('999012345678901','999012345678902','99901234567
 #'
 
 test_that("Dot Hex to Decimal Works",{
-  expect_equal(ISOdothexToISOdecimal(df$isodothex), df$isodecimal)
+  expect_equal(isodothex_to_isodecimal(df$isodothex), df$isodecimal)
 })
 
 test_that("64 Bit Left to Decimal Works",{
-  expect_equal(ISO64bitLeftToISODecimal(df$iso64bitleft), df$isodecimal)
+  expect_equal(iso64bitleft_to_isodecimal(df$iso64bitleft), df$isodecimal)
 })
 
 test_that("64 Bit Right to Decimal Works",{
-  expect_equal(ISO64bitRightToISODecimal(df$iso64bitright), df$isodecimal)
+  expect_equal(iso64bitright_to_isodecimal(df$iso64bitright), df$isodecimal)
 })
