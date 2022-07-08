@@ -44,8 +44,27 @@ ISODecimalToISO64bitLeft <- function(.data){
       manufacturer <- stringr::str_sub(i,1,3) # split the input value to 3/12
       animalID <- stringr::str_sub(i,4,15) # split the input value to 3/12
 
-      manufacturer <- stringr::str_pad(decimal_to_binary(manufacturer),width = 10,pad = "0",side = 'left')
-      animalID <- stringr::str_pad(decimal_to_binary(animalID),width = 38,pad = "0",side = 'left')
+      manufacturer <- decimal_to_binary(manufacturer)
+      animalID <- decimal_to_binary(animalID)
+      # check that manufacturer is exactly 10 characters long, if not remove leading 0 or pad leading 0
+      manufacturerVector <- stringr::str_split(manufacturer,"",simplify = F)[[1]]
+      if(min(which(manufacturerVector != 0)) == Inf){
+        manufacturerVector <- rep("0",10) # simple solution, manufacturer was all 0, regardless of length return 10 character binary 0
+      }else{
+        manufacturerVector <- manufacturerVector[min(which(manufacturerVector != 0)):length(manufacturerVector)]
+      }
+      manufacturer <- paste0(manufacturerVector,collapse = "")
+      manufacturer <- stringr::str_pad(manufacturer,width = 10,pad = "0",side = 'left')
+
+      # check that animalID is exactly 38 characters long, if not remove leading 0 or pad leading 0
+      animalIDVector <- stringr::str_split(animalID,"",simplify = F)[[1]]
+      if(min(which(animalIDVector != 0)) == Inf){
+        animalIDVector <- rep("0",38) # simple solution, manufacturer was all 0, regardless of length return 10 character binary 0
+      }else{
+        animalIDVector <- animalIDVector[min(which(animalIDVector != 0)):length(animalIDVector)]
+      }
+      animalID <- paste0(animalIDVector,collapse = "")
+      animalID <- stringr::str_pad(animalID,width = 38,pad = "0",side = 'left')
 
       ISO64bitLeft <- paste0('1000000000000000',manufacturer,animalID)
 
@@ -70,11 +89,33 @@ ISODecimalToISO64bitRight <- function(.data){
     }else{
       manufacturer <- stringr::str_sub(i,1,3) # split the input value to 3/12
       animalID <- stringr::str_sub(i,4,15) # split the input value to 3/12
+      # convert each to binary
+      manufacturer <- decimal_to_binary(manufacturer)
+      animalID <- decimal_to_binary(animalID)
+      # check that binary manufacturer is exactly 10 characters long, if not remove leading 0 or pad leading 0
+      manufacturerVector <- stringr::str_split(manufacturer,"",simplify = F)[[1]]
+      if(min(which(manufacturerVector != 0)) == Inf){
+        manufacturerVector <- rep("0",10) # simple solution, manufacturer was all 0, regardless of length return 10 character binary 0
+      }else{
+        manufacturerVector <- manufacturerVector[min(which(manufacturerVector != 0)):length(manufacturerVector)]
+      }
+      manufacturer <- paste0(manufacturerVector,collapse = "")
+      manufacturer <- stringr::str_pad(manufacturer,width = 10,pad = "0",side = 'left')
 
-      manufacturer <- stringr::str_pad(decimal_to_binary(manufacturer),width = 10,pad = "0",side = 'left')
-      animalID <- stringr::str_pad(decimal_to_binary(animalID),width = 38,pad = "0",side = 'left')
+      # check that animalID is exactly 38 characters long, if not remove leading 0 or pad leading 0
+      animalIDVector <- stringr::str_split(animalID,"",simplify = F)[[1]]
+      if(min(which(animalIDVector != 0)) == Inf){
+        animalIDVector <- rep("0",38) # simple solution, manufacturer was all 0, regardless of length return 10 character binary 0
+      }else{
+        animalIDVector <- animalIDVector[min(which(animalIDVector != 0)):length(animalIDVector)]
+      }
+      animalID <- paste0(animalIDVector,collapse = "")
+      animalID <- stringr::str_pad(animalID,width = 38,pad = "0",side = 'left')
+
       ISO64bitLeft <- paste0('1000000000000000',manufacturer,animalID)
+
       ISO64bitRight <- stringi::stri_reverse(ISO64bitLeft)
+
       out <- append(out,stringr::str_to_upper(binary_to_hexadecimal(ISO64bitRight)))
     }
   }

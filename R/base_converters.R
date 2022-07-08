@@ -41,8 +41,8 @@ binary_to_decimal <- function(bin){
     return('0')
   }else{
     binVector <- binVector[min(which(binVector != 0)):length(binVector)] # remove leading zero's
-    if(length(binVector) > 54){
-      stop(paste0('Binary number is too large for this package, sorry!(',length(binVector),'bit, max is 54bit)'))
+    if(length(binVector) > 55 | (length(binVector) == 55 & sum(as.numeric(binVector)) > 1)){
+      stop(paste0(bin,' is too large for this package, sorry! (max = "1000000000000000000000000000000000000000000000000000000")'))
     }else{
       powerSeq <- seq(length(binVector)-1,0)
       dec <- 0
@@ -67,7 +67,14 @@ decimal_to_binary <- function(dec){
     bin <- append(bin,dec%%2,after = 0)
     dec <- dec%/%2
   }
-  return(paste0(bin,collapse = ""))
+  bin <- paste0(bin,collapse = "")
+  # always return whole nibbles
+  if(nchar(bin)%%4){
+    return(stringr::str_pad(bin,width = nchar(bin)+(4-nchar(bin)%%4),pad = "0",side = 'left'))
+  }else{
+    return(bin)
+  }
+
 }
 
 #' Decimal to Hexadecimal converter
@@ -94,7 +101,7 @@ decimal_to_hexadecimal <- function(dec){
 #' @examples
 #' hexadecimal_to_binary('ABC123')
 hexadecimal_to_binary <- function(hex){
-  stringr::str_pad(decimal_to_binary(hexadecimal_to_decimal(hex)),width = nchar(hex)*4,pad = "0",side = 'left')
+  decimal_to_binary(hexadecimal_to_decimal(hex))
 }
 
 #' Binary to Hexadecimal converter
