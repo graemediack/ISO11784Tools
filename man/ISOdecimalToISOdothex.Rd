@@ -2,8 +2,7 @@
 % Please edit documentation in R/from_isodecimal_tform.R
 \name{ISOdecimalToISOdothex}
 \alias{ISOdecimalToISOdothex}
-\title{Main functions for converting from ISO11784 15 Digit Decimal to other formats
-These are wrappers for the functions in baseConverters.R}
+\title{ISO11784 15 Digit Decimal format To ISO11784 Dot Hexadecimal}
 \usage{
 ISOdecimalToISOdothex(.data)
 }

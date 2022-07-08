@@ -1,7 +1,3 @@
-#' Main functions for converting from ISO11784 15 Digit Decimal to other formats
-#' These are wrappers for the functions in baseConverters.R
-#'
-#'
 #' ISO11784 15 Digit Decimal format To ISO11784 Dot Hexadecimal
 #' @param .data A vector of ISO11784 15 Digit Decimal format strings.
 #' @return A vector of Dot Hexadecimal format strings.
