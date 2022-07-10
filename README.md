@@ -1,8 +1,8 @@
 # ISO11784Tools
-R package for working with ISO11784 encoded PIT tags
+R package for working with codes read from ISO11784 encoded PIT tags
 
 ## ISO 11784
-ISO 11784 and ISO 11785 are international standards used to describe how information should be encoded within passive integrated transponder tags (PIT tags).
+ISO 11784 and ISO 11785 are standards describing how information should be encoded within passive integrated transponder tags (PIT tags).
 
 The standards describes the binary construction of the information stored in the tag, and how it should be read by PIT tag readers
 
