@@ -63,18 +63,21 @@ binary_to_decimal <- function(bin){
 decimal_to_binary <- function(dec){
   dec <- as.numeric(dec)
   bin <- c() # initialise empty vector to capture binary characters
-  while(dec != 0){
-    bin <- append(bin,dec%%2,after = 0)
-    dec <- dec%/%2
-  }
-  bin <- paste0(bin,collapse = "")
-  # always return whole nibbles
-  if(nchar(bin)%%4){
-    return(stringr::str_pad(bin,width = nchar(bin)+(4-nchar(bin)%%4),pad = "0",side = 'left'))
+  if(dec == 0){
+    return('0000')
   }else{
-    return(bin)
+    while(dec != 0){
+      bin <- append(bin,dec%%2,after = 0)
+      dec <- dec%/%2
+    }
+    bin <- paste0(bin,collapse = "")
+    # always return whole nibbles
+    if(nchar(bin)%%4){
+      return(stringr::str_pad(bin,width = nchar(bin)+(4-nchar(bin)%%4),pad = "0",side = 'left'))
+    }else{
+      return(bin)
+    }
   }
-
 }
 
 #' Decimal to Hexadecimal converter
@@ -86,11 +89,15 @@ decimal_to_binary <- function(dec){
 decimal_to_hexadecimal <- function(dec){
   dec <- as.numeric(dec)
   hex <- c() # initialise empty vector to capture hex characters
-  while(dec != 0){
-    hex <- append(hex, as.character(as.hexmode(dec%%16)),after = 0)
-    dec <- dec%/%16
+  if(dec == 0){
+    return('0')
+  }else{
+    while(dec != 0){
+      hex <- append(hex, as.character(as.hexmode(dec%%16)),after = 0)
+      dec <- dec%/%16
+    }
+    return(paste0(hex,collapse = ""))
   }
-  paste0(hex,collapse = "")
 }
 
 #' Hexadecimal to Binary converter
@@ -111,14 +118,24 @@ hexadecimal_to_binary <- function(hex){
 #' @examples
 #' binary_to_hexadecimal('1001101')
 binary_to_hexadecimal <- function(bin){
-  binPadded <- stringr::str_pad(string = bin,
-                                width = nchar(bin)+nchar(bin)%%4,
-                                side = 'left',
-                                pad = '0') # ensure binary string has whole nibbles
-  binClustered <- stringi::stri_sub(binPadded,
-                                    seq(1,nchar(binPadded),by=4),
-                                    length=4) # convert to nibbles (4 bit chunks)
-  dec <- strtoi(binClustered,2)
-  hex <- as.hexmode(dec)
-  paste0(hex,collapse = "")
+  if(as.numeric(bin) == 0){
+    return('0')
+  }else{
+    if(nchar(bin)%%4){
+      fullNibbleWidth <- stringr::str_pad(bin,width = nchar(bin)+(4-nchar(bin)%%4),pad = "0",side = 'left')
+    }else{
+      fullNibbleWidth <- nchar(bin)
+    }
+    binPadded <- stringr::str_pad(string = bin,
+      width = fullNibbleWidth,
+      side = 'left',
+      pad = '0') # ensure binary string has whole nibbles
+    binClustered <- stringi::stri_sub(binPadded,
+      seq(1,nchar(binPadded),by=4),
+      length=4) # convert to nibbles (4 bit chunks)
+    dec <- strtoi(binClustered,2)
+    hex <- as.hexmode(dec)
+    paste0(hex,collapse = "")
+  }
+
 }
