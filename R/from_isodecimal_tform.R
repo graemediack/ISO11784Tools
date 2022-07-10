@@ -7,8 +7,8 @@
 isodecimal_to_isodothex <- function(.data){
   out <- c()
   for(i in .data){
-    if(ISO11784Tools::get_iso11784_format(i) != 'ISOdecimal'){
-      warning("Unexpected format does not match ISOdecimal")
+    if(ISO11784Tools::get_iso11784_format(i) != 'isodecimal'){
+      warning("Unexpected format does not match isodecimal")
       out <- append(out,NA)
     }else{
       # convert the input integer to hexadecimal ISO format ABC.1234567ABC
@@ -37,8 +37,8 @@ isodecimal_to_isodothex <- function(.data){
 isodecimal_to_iso64bitleft <- function(.data){
   out <- c()
   for(i in .data){
-    if(ISO11784Tools::get_iso11784_format(i) != 'ISOdecimal'){
-      warning("Unexpected format does not match ISOdecimal")
+    if(ISO11784Tools::get_iso11784_format(i) != 'isodecimal'){
+      warning("Unexpected format does not match isodecimal")
       out <- append(out,NA)
     }else{
       manufacturer <- stringr::str_sub(i,1,3) # split the input value to 3/12
@@ -83,8 +83,8 @@ isodecimal_to_iso64bitleft <- function(.data){
 isodecimal_to_iso64bitright <- function(.data){
   out <- c()
   for(i in .data){
-    if(ISO11784Tools::get_iso11784_format(i) != 'ISOdecimal'){
-      warning("Unexpected format does not match ISOdecimal")
+    if(ISO11784Tools::get_iso11784_format(i) != 'isodecimal'){
+      warning("Unexpected format does not match isodecimal")
       out <- append(out,NA)
     }else{
       manufacturer <- stringr::str_sub(i,1,3) # split the input value to 3/12

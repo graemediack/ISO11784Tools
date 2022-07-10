@@ -70,10 +70,10 @@ convert_to_isodecimal <- function(.data){
 #' @examples
 #' convert_to_isodothex(c('999012345678901','8000F9C2DFDC1C36','EC383BFB439F0001'))
 convert_to_isodothex <- function(.data){
-  ISOdecimal <- isodothex_to_isodecimal(.data)
-  ISOdothex <- isodothex_to_isodecimal(ISOdothexToISOdecimal(.data))
-  ISO64bitLeft <- isodothex_to_isodecimal(iso64bitleft_to_isodecimal(.data))
-  ISO64bitRight <- isodothex_to_isodecimal(iso64bitright_to_isodecimal(.data))
+  ISOdecimal <- isodecimal_to_isodothex(.data)
+  ISOdothex <- isodecimal_to_isodothex(isodothex_to_isodecimal(.data))
+  ISO64bitLeft <- isodecimal_to_isodothex(iso64bitleft_to_isodecimal(.data))
+  ISO64bitRight <- isodecimal_to_isodothex(iso64bitright_to_isodecimal(.data))
   dplyr::coalesce(ISOdecimal,ISOdothex,ISO64bitLeft,ISO64bitRight)
 }
 

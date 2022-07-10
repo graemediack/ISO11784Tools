@@ -11,34 +11,42 @@ test_that("get_iso11784_format Works",{
     get_iso11784_format(
       c(df$isodecimal[1:2],df$isodothex[1:2],df$iso64bitleft[1:2],df$iso64bitright[1:2],c('1234567890123','ABD.4567890123'))
     ),
-    c('ISOdecimal','ISOdecimal','ISOdothex','ISOdothex','ISO64bitl','ISO64bitl','ISO64bitr','ISO64bitr','unknown','unknown')
+    c('isodecimal','isodecimal','isodothex','isodothex','iso64bitl','iso64bitl','iso64bitr','iso64bitr','unknown','unknown')
   )
 })
 
 test_that("Convert to ISO Decimal Works",{
-  expect_equal(convert_to_isodecimal(df$isodecimal), df$isodecimal)
-  expect_equal(convert_to_isodecimal(df$isodothex), df$isodecimal)
-  expect_equal(convert_to_isodecimal(df$iso64bitleft), df$isodecimal)
-  expect_equal(convert_to_isodecimal(df$iso64bitright), df$isodecimal)
+  suppressWarnings({
+    expect_equal(convert_to_isodecimal(df$isodecimal), df$isodecimal)
+    expect_equal(convert_to_isodecimal(df$isodothex), df$isodecimal)
+    expect_equal(convert_to_isodecimal(df$iso64bitleft), df$isodecimal)
+    expect_equal(convert_to_isodecimal(df$iso64bitright), df$isodecimal)
+  })
 })
 
 test_that("Convert to ISO Dot Hexadecimal Works",{
+  suppressWarnings({
   expect_equal(convert_to_isodothex(df$isodecimal), df$isodothex)
   expect_equal(convert_to_isodothex(df$isodothex), df$isodothex)
   expect_equal(convert_to_isodothex(df$iso64bitleft), df$isodothex)
   expect_equal(convert_to_isodothex(df$iso64bitright), df$isodothex)
+  })
 })
 
 test_that("Convert to ISO Raw Hexadecimal (Animal bit left) Works",{
+  suppressWarnings({
   expect_equal(convert_to_iso64bitl(df$isodecimal), df$iso64bitleft)
   expect_equal(convert_to_iso64bitl(df$isodothex), df$iso64bitleft)
   expect_equal(convert_to_iso64bitl(df$iso64bitleft), df$iso64bitleft)
   expect_equal(convert_to_iso64bitl(df$iso64bitright), df$iso64bitleft)
+  })
 })
 
 test_that("Convert to ISO Raw Hexadecimal (Animal bit right) Works",{
+  suppressWarnings({
   expect_equal(convert_to_iso64bitr(df$isodecimal), df$iso64bitright)
   expect_equal(convert_to_iso64bitr(df$isodothex), df$iso64bitright)
   expect_equal(convert_to_iso64bitr(df$iso64bitleft), df$iso64bitright)
   expect_equal(convert_to_iso64bitr(df$iso64bitright), df$iso64bitright)
+  })
 })
