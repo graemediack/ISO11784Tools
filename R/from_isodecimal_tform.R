@@ -5,27 +5,35 @@
 #' @examples
 #' isodecimal_to_isodothex(c('989737733408912'))
 isodecimal_to_isodothex <- function(.data){
-  out <- c()
-  for(i in .data){
-    if(ISO11784Tools::get_iso11784_format(i) != 'isodecimal'){
-      warning("Unexpected format does not match isodecimal")
-      out <- append(out,NA)
-    }else{
-      # convert the input integer to hexadecimal ISO format ABC.1234567ABC
-      manufacturer <- stringr::str_sub(i,1,3) # split the input value to 3/12
-      animalID <- stringr::str_sub(i,4,15) # split the input value to 3/12
 
-      # calculations LEFT
-      manufacturer <- decimal_to_hexadecimal(manufacturer)
-      # calculations RIGHT
-      animalID <- decimal_to_hexadecimal(animalID)
-      # Leading zero's are removed in this process and need added back on, animalID only
-      animalID <- stringr::str_pad(string = animalID,width = 10,side = 'left',pad = '0')
-      # return finished hexadecimal string
-      out <- append(out,stringr::str_to_upper(paste0(manufacturer,'.',animalID)))
-    }
+  formatTest <- ISO11784Tools::get_iso11784_format(.data) == "isodecimal"
+
+  out <- .data
+  out[!formatTest] <- NA
+
+  if(!all(is.na(out))){
+    manufacturer <- out
+    animalID <- out
+
+    # extract manufacturer (left) and animal id (right) components
+    manufacturer[formatTest] <- stringr::str_sub(manufacturer[formatTest],1,3)
+    animalID[formatTest] <- stringr::str_sub(animalID[formatTest],4,15)
+
+    # calculations LEFT
+    manufacturer[formatTest] <- lapply(manufacturer[formatTest],ISO11784Tools::decimal_to_hexadecimal)
+    # calculations RIGHT
+    animalID[formatTest] <- lapply(animalID[formatTest],ISO11784Tools::decimal_to_hexadecimal)
+    # Leading zero's are removed in this process and need added back on, animalID only
+    animalID[formatTest] <- animalID[formatTest] %>% stringr::str_pad(width = 10, side = 'left',pad = '0')
+
+    out[formatTest] <- stringr::str_to_upper(paste0(manufacturer[formatTest],'.',animalID[formatTest]))
   }
+  if(any(is.na(out))){
+    warning("Some or all items do not match isodothex format and will appear as NA")
+  }
+
   out
+
 }
 
 #' ISO11784 15 Digit Decimal format To ISO11784 Raw Hexadecimal format, animal ID on the LEFT
