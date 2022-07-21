@@ -1,35 +1,32 @@
-#' ISO11784 Pattern detection routine to identify (guess!) the input format
+#' ISO11784 Pattern detection routine to identify (as far as possible) the input format
 #' @param id A vector of character strings
-#' @return One of 5 formats: c('unknown', 'isodecimal', 'isodothex','iso64bitl', 'iso64bitr')
+#' @return  A vector of character strings, each item being one of 5 formats: c('unknown', 'isodecimal', 'isodothex','iso64bitl', 'iso64bitr')
 #' @export
 #' @examples
 #' get_iso11784_format(c('3DD.ABC4567890'))
+get_iso11784_format <- function(.data){
 
-get_iso11784_format <- function(id){
-  if(!is.na(id)){
-    ISOdothex <- "^[:xdigit:]{3}[\\.]{1}[:xdigit:]{10}$"
-    ISO64bitl <- "^8000[:xdigit:]{12}$" # 64 bits and animal tag bit on the left
-    ISO64bitr <- "^[:xdigit:]{12}0001$" # 64 bits and animal tag bit on the right
-    ISOdecimal <- "^[0-9]{15}$"
+  ISOdothex <- "^[:xdigit:]{3}[\\.]{1}[:xdigit:]{10}$"
+  ISO64bitl <- "^8000[:xdigit:]{12}$" # 64 bits and animal tag bit on the left
+  ISO64bitr <- "^[:xdigit:]{12}0001$" # 64 bits and animal tag bit on the right
+  ISOdecimal <- "^[0-9]{15}$"
 
-    out <- tibble::tibble(id = id)
-    out$format <- "unknown"
+  out <- tibble::as_tibble(as.character(.data)) #convert to tibble and ensure
+  out[is.na(out)] <- "" # replace all NA values with empty string
+  out$format <- "unknown"
 
-    # capture basic format detection comparisons
-    out[stringr::str_detect(out$id,ISOdecimal),]$format <- 'isodecimal'
-    out[stringr::str_detect(out$id,ISOdothex),]$format <- 'isodothex'
-    out[stringr::str_detect(out$id,ISO64bitl),]$format <- 'iso64bitl'
-    out[stringr::str_detect(out$id,ISO64bitr),]$format <- 'iso64bitr'
-    # reset outsider cases back to unknown
-    out[out$format == 'isodecimal',][as.numeric(stringr::str_sub(out[out$format == 'isodecimal',]$id,4,-1)) > 274877906943,]$format <- 'unknown' # this number is the biggest 38 bit binary number, animal ID cannot be larger than 38 bits
-    out[out$format == 'isodothex',][as.hexmode(stringr::str_sub(out[out$format == 'isodothex',]$id,5,5)) > as.hexmode('3'),]$format <- 'unknown' # this number is the biggest 38 bit binary number, animal ID cannot be larger than 38 bits
-    out[out$format == 'iso64bitl',][!(stringr::str_detect(out[out$format == 'iso64bitl',]$id,"[a-fA-F]")),]$format <- 'unknown' # cautiously assume that 64bit hexadecimal should have at least 1 alpha character
-    out[out$format == 'iso64bitr',][!(stringr::str_detect(out[out$format == 'iso64bitr',]$id,"[a-fA-F]")),]$format <- 'unknown' # cautiously assume that 64bit hexadecimal should have at least 1 alpha character
+  # capture basic format detection comparisons
+  out[stringr::str_detect(out$value,ISOdecimal),]$format <- 'isodecimal'
+  out[stringr::str_detect(out$value,ISOdothex),]$format <- 'isodothex'
+  out[stringr::str_detect(out$value,ISO64bitl),]$format <- 'iso64bitl'
+  out[stringr::str_detect(out$value,ISO64bitr),]$format <- 'iso64bitr'
+  # reset outsider cases back to unknown
+  out[out$format == 'isodecimal',][as.numeric(stringr::str_sub(out[out$format == 'isodecimal',]$value,4,-1)) > 274877906943,]$format <- 'unknown' # this number is the biggest 38 bit binary number, animal ID cannot be larger than 38 bits
+  out[out$format == 'isodothex',][as.hexmode(stringr::str_sub(out[out$format == 'isodothex',]$value,5,5)) > as.hexmode('3'),]$format <- 'unknown' # this number is the biggest 38 bit binary number, animal ID cannot be larger than 38 bits
+  out[out$format == 'iso64bitl',][!(stringr::str_detect(out[out$format == 'iso64bitl',]$value,"[a-fA-F]")),]$format <- 'unknown' # cautiously assume that 64bit hexadecimal should have at least 1 alpha character
+  out[out$format == 'iso64bitr',][!(stringr::str_detect(out[out$format == 'iso64bitr',]$value,"[a-fA-F]")),]$format <- 'unknown' # cautiously assume that 64bit hexadecimal should have at least 1 alpha character
 
-    return(out$format)
-  }else{
-    return('unknown')
-  }
+  out$format
 }
 
 

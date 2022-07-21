@@ -2,18 +2,18 @@
 % Please edit documentation in R/utilities.R
 \name{get_iso11784_format}
 \alias{get_iso11784_format}
-\title{ISO11784 Pattern detection routine to identify (guess!) the input format}
+\title{ISO11784 Pattern detection routine to identify (as far as possible) the input format}
 \usage{
 get_iso11784_format(.data)
 }
 \arguments{
-\item{.data}{A vector of character strings}
+\item{id}{A vector of character strings}
 }
 \value{
-One of 5 formats: c('unknown', 'isodecimal', 'isodothex','iso64bitl', 'iso64bitr')
+A vector of character strings, each item being one of 5 formats: c('unknown', 'isodecimal', 'isodothex','iso64bitl', 'iso64bitr')
 }
 \description{
-ISO11784 Pattern detection routine to identify (guess!) the input format
+ISO11784 Pattern detection routine to identify (as far as possible) the input format
 }
 \examples{
 get_iso11784_format(c('3DD.ABC4567890'))
