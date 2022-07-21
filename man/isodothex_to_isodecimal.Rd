@@ -16,5 +16,5 @@ A vector of ISO11784 15 Digit Decimal format strings.
 ISO 11784 Dot Hexadecimal format To ISO11784 15 Digit Decimal
 }
 \examples{
-isodothex_to_isodecimal(c('3DD.ABC4567890'))
+isodothex_to_isodecimal(c('3DD.3BC4567890'))
 }

@@ -3,28 +3,37 @@
 #' @return A vector of ISO11784 15 Digit Decimal format strings.
 #' @export
 #' @examples
-#' isodothex_to_isodecimal(c('3DD.ABC4567890'))
-
+#' isodothex_to_isodecimal(c('3DD.3BC4567890'))
 isodothex_to_isodecimal <- function(.data){
-  out <- c()
-  for(i in .data){
-    if(ISO11784Tools::get_iso11784_format(i) != 'isodothex'){
-      warning("Unexpected format does not match isodothex")
-      out <- append(out,NA)
-    }else{
-      # extract manufacturer (left) and animal id (right) components
-      manufacturer <- stringr::str_split(i,'\\.',simplify = T)[1]
-      animalID <- stringr::str_split(i,'\\.',simplify = T)[2]
-      # calculations LEFT
-      manufacturer <- ISO11784Tools::hexadecimal_to_decimal(manufacturer)
-      # calculations RIGHT
-      animalID <- ISO11784Tools::hexadecimal_to_decimal(animalID)
-      # Leading zero's are removed in this process and need added back on, animalID only
-      animalID <- stringr::str_pad(string = animalID,width = 12, side = 'left',pad = '0')
-      out <- append(out,paste0(manufacturer,animalID))
-    }
+
+  formatTest <- ISO11784Tools::get_iso11784_format(.data) == "isodothex"
+
+  out <- .data
+  out[!formatTest] <- NA
+
+  if(!all(is.na(out))){
+    manufacturer <- out
+    animalID <- out
+
+    # extract manufacturer (left) and animal id (right) components
+    manufacturer[formatTest] <- stringr::str_split(manufacturer[formatTest],pattern = '\\.',simplify = T)[,1]
+    animalID[formatTest] <- stringr::str_split(animalID[formatTest],pattern = '\\.',simplify = T)[,2]
+
+    # calculations LEFT
+    manufacturer[formatTest] <- lapply(manufacturer[formatTest],ISO11784Tools::hexadecimal_to_decimal)
+    # calculations RIGHT
+    animalID[formatTest] <- lapply(animalID[formatTest],ISO11784Tools::hexadecimal_to_decimal)
+    # Leading zero's are removed in this process and need added back on, animalID only
+    animalID[formatTest] <- animalID[formatTest] %>% stringr::str_pad(width = 12, side = 'left',pad = '0')
+
+    out[formatTest] <- paste0(manufacturer[formatTest],animalID[formatTest])
   }
+  if(any(is.na(out))){
+    warning("Some or all items do not match isodothex format and will appear as NA")
+  }
+
   out
+
 }
 
 #' ISO 11784 Raw Hexadecimal format, animal ID on the LEFT, To ISO11784 15 Digit Decimal
@@ -34,21 +43,36 @@ isodothex_to_isodecimal <- function(.data){
 #' @examples
 #' iso64bitleft_to_isodecimal(c('8000ABCDEF123456'))
 iso64bitleft_to_isodecimal <- function(.data){
-  out <- c()
-  for(i in .data){
-    if(ISO11784Tools::get_iso11784_format(i) != 'iso64bitl'){
-      warning("Unexpected format does not match iso64bitl")
-      out <- append(out,NA)
-    }else{
-      # part the hex string into manufacturer chunk (10 bits following the left most 16) and animal ID (the right most 38 bits)
-      manufacturer <- binary_to_decimal(stringr::str_sub(ISO11784Tools::hexadecimal_to_binary(stringr::str_sub(i,5,7)),1,10))
-      animalID <- stringr::str_pad(ISO11784Tools::binary_to_decimal(stringr::str_sub(ISO11784Tools::hexadecimal_to_binary(stringr::str_sub(i,7,16)),3,40)),
-        width = 12,
-        pad = "0",
-        side = 'left')
-      out <- append(out,paste0(manufacturer,animalID))
-    }
+
+  formatTest <- ISO11784Tools::get_iso11784_format(.data) == "iso64bitl"
+
+  out <- .data
+  out[!formatTest] <- NA
+
+  if(!all(is.na(out))){
+    manufacturer <- out
+    animalID <- out
+
+    # extract manufacturer (left) and animal id (right) components
+    # left transformations and calculations
+    manufacturer[formatTest] <- stringr::str_sub(manufacturer[formatTest],5,7)
+    manufacturer[formatTest] <- lapply(manufacturer[formatTest],ISO11784Tools::hexadecimal_to_binary)
+    manufacturer[formatTest] <- stringr::str_sub(manufacturer[formatTest],1,10)
+    manufacturer[formatTest] <- lapply(manufacturer[formatTest],ISO11784Tools::binary_to_decimal)
+    #right transformations and calculations
+    animalID[formatTest] <- stringr::str_sub(animalID[formatTest],7,16)
+    animalID[formatTest] <- lapply(animalID[formatTest],ISO11784Tools::hexadecimal_to_binary)
+    animalID[formatTest] <- stringr::str_sub(animalID[formatTest],3,40)
+    animalID[formatTest] <- lapply(animalID[formatTest],ISO11784Tools::binary_to_decimal)
+    # Leading zero's are removed in this process and need added back on, animalID only
+    animalID[formatTest] <-  stringr::str_pad(animalID[formatTest],width = 12,pad = "0",side = 'left')
+
+    out[formatTest] <- paste0(manufacturer[formatTest],animalID[formatTest])
   }
+  if(any(is.na(out))){
+    warning("Some or all items do not match iso64bitl format and will appear as NA")
+  }
+
   out
 }
 
@@ -59,21 +83,37 @@ iso64bitleft_to_isodecimal <- function(.data){
 #' @examples
 #' iso64bitright_to_isodecimal(c('ABCDEF1234560001'))
 iso64bitright_to_isodecimal <- function(.data){
-  out <- c()
-  for(i in .data){
-    if(ISO11784Tools::get_iso11784_format(i) != 'iso64bitr'){
-      warning("Unexpected format does not match iso64bitr")
-      out <- append(out,NA)
-    }else{
-      # part the hex string into manufacturer chunk (10 bits following the right most 16) and animal ID (the left most 38 bits)
-      # note, reverses the binary strings because in this format the least significant bit is on the left
-      manufacturer <- ISO11784Tools::binary_to_decimal(stringi::stri_reverse(stringr::str_sub(ISO11784Tools::hexadecimal_to_binary(stringr::str_sub(i,10,12)),3,12)))
-      animalID <- stringr::str_pad(ISO11784Tools::binary_to_decimal(stringi::stri_reverse(stringr::str_sub(ISO11784Tools::hexadecimal_to_binary(stringr::str_sub(i,1,10)),1,38))),
-        width = 12,
-        pad = "0",
-        side = 'left')
-      out <- append(out,paste0(manufacturer,animalID))
-    }
+
+  formatTest <- ISO11784Tools::get_iso11784_format(.data) == "iso64bitr"
+
+  out <- .data
+  out[!formatTest] <- NA
+
+  if(!all(is.na(out))){
+    manufacturer <- out
+    animalID <- out
+
+    # extract manufacturer (left) and animal id (right) components
+    # left transformations and calculations
+    manufacturer[formatTest] <- stringr::str_sub(manufacturer[formatTest],10,12)
+    manufacturer[formatTest] <- lapply(manufacturer[formatTest],ISO11784Tools::hexadecimal_to_binary)
+    manufacturer[formatTest] <- stringr::str_sub(manufacturer[formatTest],3,12)
+    manufacturer[formatTest] <- stringi::stri_reverse(manufacturer[formatTest])
+    manufacturer[formatTest] <- lapply(manufacturer[formatTest],ISO11784Tools::binary_to_decimal)
+    #right transformations and calculations
+    animalID[formatTest] <- stringr::str_sub(animalID[formatTest],1,10)
+    animalID[formatTest] <- lapply(animalID[formatTest],ISO11784Tools::hexadecimal_to_binary)
+    animalID[formatTest] <- stringr::str_sub(animalID[formatTest],1,38)
+    animalID[formatTest] <- stringi::stri_reverse(animalID[formatTest])
+    animalID[formatTest] <- lapply(animalID[formatTest],ISO11784Tools::binary_to_decimal)
+    # Leading zero's are removed in this process and need added back on, animalID only
+    animalID[formatTest] <-  stringr::str_pad(animalID[formatTest],width = 12,pad = "0",side = 'left')
+
+    out[formatTest] <- paste0(manufacturer[formatTest],animalID[formatTest])
   }
+  if(any(is.na(out))){
+    warning("Some or all items do not match iso64bitr format and will appear as NA")
+  }
+
   out
 }
