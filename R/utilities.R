@@ -32,128 +32,64 @@ get_iso11784_format <- function(.data){
 
 #' Convert any recognised ISO11784/5 format to Decimal format
 #' @param .data A vector of character strings
-#' @param format a string indicating which format the ID is in, intended to be used with output from get_iso11784_format
-#'     c('unknown', 'isodecimal', 'isodothex','iso64bitl', 'iso64bitr')
 #' @return A converted vector of character strings
 #' @export
 #' @examples
 #' convert_to_isodecimal(c('3E7.02DFDC1C35','8000F9C2DFDC1C36','EC383BFB439F0001'))
-convert_to_isodecimal <- function(.data,format = NULL){
-  if(!(is.null(format))){
-    if(format == 'isodecimal'){
-      return(.data)
-    }else if(format == 'isodothex'){
-      return(isodothex_to_isodecimal(.data))
-    }else if(format == 'iso64bitl'){
-      return(iso64bitleft_to_isodecimal(.data))
-    }else if(format == 'iso64bitr'){
-      return(iso64bitright_to_isodecimal(.data))
-    }else{
-      warning(paste0("Unkown format ",format))
-      return(rep(NA,length(.data)))
-    }
-  }else{
+convert_to_isodecimal <- function(.data){
+
     ISOdecimal <- isodothex_to_isodecimal(isodecimal_to_isodothex(.data))
     ISOdothex <- isodothex_to_isodecimal(.data)
     ISO64bitLeft <- iso64bitleft_to_isodecimal(.data)
     ISO64bitRight <- iso64bitright_to_isodecimal(.data)
     return(dplyr::coalesce(ISOdecimal,ISOdothex,ISO64bitLeft,ISO64bitRight))
-  }
 
 }
 
 
 #' Convert any recognised ISO11784/5 format to Dot Hexadecimal format
 #' @param .data A vector of character strings
-#' @param format a string indicating which format the ID is in, intended to be used with output from get_iso11784_format
-#'     c('unknown', 'isodecimal', 'isodothex','iso64bitl', 'iso64bitr')
 #' @return A converted vector of character strings
 #' @export
 #' @examples
 #' convert_to_isodothex(c('999012345678901','8000F9C2DFDC1C36','EC383BFB439F0001'))
-convert_to_isodothex <- function(.data,format = NULL){
-  if(!(is.null(format))){
-    if(format == 'isodecimal'){
-      return(isodecimal_to_isodothex(.data))
-    }else if(format == 'isodothex'){
-      return(.data)
-    }else if(format == 'iso64bitl'){
-      return(isodecimal_to_isodothex(iso64bitleft_to_isodecimal(.data)))
-    }else if(format == 'iso64bitr'){
-      return(isodecimal_to_isodothex(iso64bitright_to_isodecimal(.data)))
-    }else{
-      warning(paste0("Unkown format ",format))
-      return(rep(NA,length(.data)))
-    }
-  }else{
+convert_to_isodothex <- function(.data){
+
     ISOdecimal <- isodecimal_to_isodothex(.data)
     ISOdothex <- isodecimal_to_isodothex(isodothex_to_isodecimal(.data))
     ISO64bitLeft <- isodecimal_to_isodothex(iso64bitleft_to_isodecimal(.data))
     ISO64bitRight <- isodecimal_to_isodothex(iso64bitright_to_isodecimal(.data))
     return(dplyr::coalesce(ISOdecimal,ISOdothex,ISO64bitLeft,ISO64bitRight))
-  }
 }
 
 
 #' Convert any recognised ISO11784/5 format to Raw Hexadecimal format, animal tag bit on the Left
 #' @param .data A vector of character strings
-#' @param format a string indicating which format the ID is in, intended to be used with output from get_iso11784_format
-#'     c('unknown', 'isodecimal', 'isodothex','iso64bitl', 'iso64bitr')
 #' @return A converted vector of character strings
 #' @export
 #' @examples
 #' convert_to_iso64bitl(c('999012345678901','3E7.02DFDC1C36','EC383BFB439F0001'))
-convert_to_iso64bitl <- function(.data,format = NULL){
-  if(!(is.null(format))){
-    if(format == 'isodecimal'){
-      return(isodecimal_to_iso64bitleft(.data))
-    }else if(format == 'isodothex'){
-      return(isodecimal_to_iso64bitleft(isodothex_to_isodecimal(.data)))
-    }else if(format == 'iso64bitl'){
-      return(.data)
-    }else if(format == 'iso64bitr'){
-      return(isodecimal_to_iso64bitleft(iso64bitright_to_isodecimal(.data)))
-    }else{
-      warning(paste0("Unkown format ",format))
-      return(rep(NA,length(.data)))
-    }
-  }else{
+convert_to_iso64bitl <- function(.data){
+
     ISOdecimal <- isodecimal_to_iso64bitleft(.data)
     ISOdothex <- isodecimal_to_iso64bitleft(isodothex_to_isodecimal(.data))
     ISO64bitLeft <- isodecimal_to_iso64bitleft(iso64bitleft_to_isodecimal(.data))
     ISO64bitRight <- isodecimal_to_iso64bitleft(iso64bitright_to_isodecimal(.data))
     return(dplyr::coalesce(ISOdecimal,ISOdothex,ISO64bitLeft,ISO64bitRight))
-  }
 }
 
 
 #' Convert any recognised ISO11784/5 format to Raw Hexadecimal format, animal tag bit on the Right
 #' @param .data A vector of character strings
-#' @param format a string indicating which format the ID is in, intended to be used with output from get_iso11784_format
-#'     c('unknown', 'isodecimal', 'isodothex','iso64bitl', 'iso64bitr')
 #' @return A converted vector of character strings
 #' @export
 #' @examples
 #' convert_to_iso64bitr(c('999012345678901','8000F9C2DFDC1C36','3E7.02DFDC1C37'))
-convert_to_iso64bitr <- function(.data,format = NULL){
-  if(!(is.null(format))){
-    if(format == 'isodecimal'){
-      return(isodecimal_to_iso64bitright(.data))
-    }else if(format == 'isodothex'){
-      return(isodecimal_to_iso64bitright(isodothex_to_isodecimal(.data)))
-    }else if(format == 'iso64bitl'){
-      return(isodecimal_to_iso64bitright(iso64bitleft_to_isodecimal(.data)))
-    }else if(format == 'iso64bitr'){
-      return(.data)
-    }else{
-      warning(paste0("Unkown format ",format))
-      return(rep(NA,length(.data)))
-    }
-  }else{
+convert_to_iso64bitr <- function(.data){
+
     ISOdecimal <- isodecimal_to_iso64bitright(.data)
     ISOdothex <- isodecimal_to_iso64bitright(isodothex_to_isodecimal(.data))
     ISO64bitLeft <- isodecimal_to_iso64bitright(iso64bitleft_to_isodecimal(.data))
     ISO64bitRight <- isodecimal_to_iso64bitright(iso64bitright_to_isodecimal(.data))
     return(dplyr::coalesce(ISOdecimal,ISOdothex,ISO64bitLeft,ISO64bitRight))
-  }
 }

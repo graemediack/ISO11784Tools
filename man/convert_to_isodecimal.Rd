@@ -4,13 +4,10 @@
 \alias{convert_to_isodecimal}
 \title{Convert any recognised ISO11784/5 format to Decimal format}
 \usage{
-convert_to_isodecimal(.data, format = NULL)
+convert_to_isodecimal(.data)
 }
 \arguments{
 \item{.data}{A vector of character strings}
-
-\item{format}{a string indicating which format the ID is in, intended to be used with output from get_iso11784_format
-c('unknown', 'isodecimal', 'isodothex','iso64bitl', 'iso64bitr')}
 }
 \value{
 A converted vector of character strings
