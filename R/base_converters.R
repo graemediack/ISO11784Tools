@@ -122,7 +122,7 @@ binary_to_hexadecimal <- function(bin){
     return('0')
   }else{
     if(nchar(bin)%%4){
-      fullNibbleWidth <- stringr::str_pad(bin,width = nchar(bin)+(4-nchar(bin)%%4),pad = "0",side = 'left')
+      fullNibbleWidth <- nchar(bin)+(4-nchar(bin)%%4)
     }else{
       fullNibbleWidth <- nchar(bin)
     }
