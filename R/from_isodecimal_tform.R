@@ -42,44 +42,83 @@ isodecimal_to_isodothex <- function(.data){
 #' @export
 #' @examples
 #' isodecimal_to_iso64bitleft(c('989737733408912'))
+# isodecimal_to_iso64bitleft <- function(.data){
+#   out <- c()
+#   for(i in .data){
+#     if(ISO11784Tools::get_iso11784_format(i) != 'isodecimal'){
+#       warning("Unexpected format does not match isodecimal")
+#       out <- append(out,NA)
+#     }else{
+#       manufacturer <- stringr::str_sub(i,1,3) # split the input value to 3/12
+#       animalID <- stringr::str_sub(i,4,15) # split the input value to 3/12
+#
+#       manufacturer <- decimal_to_binary(manufacturer)
+#       animalID <- decimal_to_binary(animalID)
+#       # check that manufacturer is exactly 10 characters long, if not remove leading 0 or pad leading 0
+#       manufacturerVector <- stringr::str_split(manufacturer,"",simplify = F)[[1]]
+#       if(min(which(manufacturerVector != 0)) == Inf){
+#         manufacturerVector <- rep("0",10) # simple solution, manufacturer was all 0, regardless of length return 10 character binary 0
+#       }else{
+#         manufacturerVector <- manufacturerVector[min(which(manufacturerVector != 0)):length(manufacturerVector)]
+#       }
+#       manufacturer <- paste0(manufacturerVector,collapse = "")
+#       manufacturer <- stringr::str_pad(manufacturer,width = 10,pad = "0",side = 'left')
+#
+#       # check that animalID is exactly 38 characters long, if not remove leading 0 or pad leading 0
+#       animalIDVector <- stringr::str_split(animalID,"",simplify = F)[[1]]
+#       if(min(which(animalIDVector != 0)) == Inf){
+#         animalIDVector <- rep("0",38) # simple solution, manufacturer was all 0, regardless of length return 10 character binary 0
+#       }else{
+#         animalIDVector <- animalIDVector[min(which(animalIDVector != 0)):length(animalIDVector)]
+#       }
+#       animalID <- paste0(animalIDVector,collapse = "")
+#       animalID <- stringr::str_pad(animalID,width = 38,pad = "0",side = 'left')
+#
+#       ISO64bitLeft <- paste0('1000000000000000',manufacturer,animalID)
+#
+#       out <- append(out,stringr::str_to_upper(binary_to_hexadecimal(ISO64bitLeft)))
+#     }
+#   }
+#   out
+# }
+
 isodecimal_to_iso64bitleft <- function(.data){
-  out <- c()
-  for(i in .data){
-    if(ISO11784Tools::get_iso11784_format(i) != 'isodecimal'){
-      warning("Unexpected format does not match isodecimal")
-      out <- append(out,NA)
-    }else{
-      manufacturer <- stringr::str_sub(i,1,3) # split the input value to 3/12
-      animalID <- stringr::str_sub(i,4,15) # split the input value to 3/12
 
-      manufacturer <- decimal_to_binary(manufacturer)
-      animalID <- decimal_to_binary(animalID)
-      # check that manufacturer is exactly 10 characters long, if not remove leading 0 or pad leading 0
-      manufacturerVector <- stringr::str_split(manufacturer,"",simplify = F)[[1]]
-      if(min(which(manufacturerVector != 0)) == Inf){
-        manufacturerVector <- rep("0",10) # simple solution, manufacturer was all 0, regardless of length return 10 character binary 0
-      }else{
-        manufacturerVector <- manufacturerVector[min(which(manufacturerVector != 0)):length(manufacturerVector)]
-      }
-      manufacturer <- paste0(manufacturerVector,collapse = "")
-      manufacturer <- stringr::str_pad(manufacturer,width = 10,pad = "0",side = 'left')
+  formatTest <- ISO11784Tools::get_iso11784_format(.data) == "isodecimal"
 
-      # check that animalID is exactly 38 characters long, if not remove leading 0 or pad leading 0
-      animalIDVector <- stringr::str_split(animalID,"",simplify = F)[[1]]
-      if(min(which(animalIDVector != 0)) == Inf){
-        animalIDVector <- rep("0",38) # simple solution, manufacturer was all 0, regardless of length return 10 character binary 0
-      }else{
-        animalIDVector <- animalIDVector[min(which(animalIDVector != 0)):length(animalIDVector)]
-      }
-      animalID <- paste0(animalIDVector,collapse = "")
-      animalID <- stringr::str_pad(animalID,width = 38,pad = "0",side = 'left')
+  out <- .data
+  out[!formatTest] <- NA
 
-      ISO64bitLeft <- paste0('1000000000000000',manufacturer,animalID)
+  if(!all(is.na(out))){
+    manufacturer <- out
+    animalID <- out
 
-      out <- append(out,stringr::str_to_upper(binary_to_hexadecimal(ISO64bitLeft)))
-    }
+    # extract manufacturer (left) and animal id (right) components
+    manufacturer[formatTest] <- stringr::str_sub(manufacturer[formatTest],1,3)
+    animalID[formatTest] <- stringr::str_sub(animalID[formatTest],4,15)
+
+    manufacturer[formatTest] <- lapply(manufacturer[formatTest],ISO11784Tools::decimal_to_binary)
+    animalID[formatTest] <- lapply(animalID[formatTest],ISO11784Tools::decimal_to_binary)
+
+    # LEFT hand checks (manufacturer)
+    # Force length 10 bits (assumption made that manafacturer <= 999)
+    manufacturer[formatTest] <- stringr::str_trunc(manufacturer[formatTest],width = 10,side = 'left',ellipsis = '')
+    manufacturer[formatTest] <- stringr::str_pad(manufacturer[formatTest],width = 10,pad = "0",side = 'left')
+
+    # RIGHT hand checks (animalID)
+    # Force length 10 bits (assumption made that animalID <= 274877906943)
+    animalID[formatTest] <- stringr::str_trunc(animalID[formatTest],width = 38,side = 'left',ellipsis = '')
+    animalID[formatTest] <- stringr::str_pad(animalID[formatTest],width = 38,pad = "0",side = 'left')
+
+    out[formatTest] <- paste0('1000000000000000',manufacturer[formatTest],animalID[formatTest])
+
+    out[formatTest] <- lapply(out[formatTest],ISO11784Tools::binary_to_hexadecimal)
+
   }
-  out
+  if(any(is.na(out))){
+    warning("Some or all items do not match iso64bitl format and will appear as NA")
+  }
+  stringr::str_to_upper(as.vector(out))
 }
 
 #' ISO11784 15 Digit Decimal format To ISO11784 Raw Hexadecimal format, animal ID on the RIGHT
