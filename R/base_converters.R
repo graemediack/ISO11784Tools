@@ -118,6 +118,7 @@ hexadecimal_to_binary <- function(hex){
 #' @examples
 #' binary_to_hexadecimal('1001101')
 binary_to_hexadecimal <- function(bin){
+  bin <- as.character(bin)
   if(as.numeric(bin) == 0){
     return('0')
   }else{
