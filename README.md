@@ -34,7 +34,7 @@ The 4 formats identified are:
 
 - `Dot Hexadecimal` - 3E7.1CBE991A14. Manufacturer Code = 3E7 (Note - this is ID is reserved for testing), Animal ID = 1CBE991A14
 - `Full Decimal` - 999123456789012. Manufacturer Code = 999 (Note - this is ID is reserved for testing), Animal ID = 123456789012
-- `Full 64 bit Hexadecimal` in two 'flavours':
+- `Full 64 bit Hexadecimal` in two 'flavours' that depend on wether the device reverses the binary before converting it to hex or not:
   - `Left Hand Flavour` - 8000F9DCBE991A14. 
   - `Right Hand Flavour` - 2858997D3B9F0001.
   
@@ -89,7 +89,7 @@ Rather than give full examples of these I will simply list them here for referen
 
 This whole package is built on the base converters that are included as imported functions. `R` has limitations with regard to maximum `integer` and maximum `numeric`, and ISO11784 ID codes generally fall outside of the `integer` but thankfully within the `numeric`.
 
-These functions are written to allow conversion between the three bases; binary, decimal, and hexadecimal, to the limit of the `numeric`; `1000000000000000000000000000000000000000000000000000000`, `18014398509481984`, and `40000000000000` respectively. I don't know why this is, so I won't try to expand on the reason here. These base converter are imported for use, other packages might have quicker versions but I needed to build them from scratch due to the aforementioned limitations.
+These functions are written to allow conversion between the three bases; binary, decimal, and hexadecimal, to the limit of the `numeric`; `0b1000000000000000000000000000000000000000000000000000000`, `18014398509481984`, and `0x40000000000000` respectively. I don't know why this is, so I won't try to expand on the reason here. These base converter are imported for use, other packages might have quicker versions but I needed to build them from scratch due to the aforementioned limitations.
 
 - `binary_to_decimal`
 - `binary_to_hexadecimal`
