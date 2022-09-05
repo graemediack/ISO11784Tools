@@ -7,6 +7,13 @@
 `vignette("ISO11784Tools")`
 
 
+### Installation
+
+`remotes::install_github("graemediack/ISO11784Tools",build_vignettes = TRUE)`
+
+`vignette("ISO11784Tools")`
+
+
 ## Introduction
 ISO 11784 and ISO 11785 are standards describing how information should be encoded within passive integrated transponder tags (PIT tags).
 
@@ -34,7 +41,7 @@ The 4 formats identified are:
 
 - `Dot Hexadecimal` - 3E7.1CBE991A14. Manufacturer Code = 3E7 (Note - this is ID is reserved for testing), Animal ID = 1CBE991A14
 - `Full Decimal` - 999123456789012. Manufacturer Code = 999 (Note - this is ID is reserved for testing), Animal ID = 123456789012
-- `Full 64 bit Hexadecimal` in two 'flavours' that depend on wether the device reverses the binary before converting it to hex or not:
+- `Full 64 bit Hexadecimal` in two 'flavours' that depend on whether the device reverses the transmitted binary ID before converting it to hex or not:
   - `Left Hand Flavour` - 8000F9DCBE991A14. 
   - `Right Hand Flavour` - 2858997D3B9F0001.
   
@@ -59,17 +66,9 @@ ISO11784Tools::convert_to_iso64bitl(c('3E7.1CBE991A14','999123456789012','8000F9
 ISO11784Tools::convert_to_iso64bitr(c('3E7.1CBE991A14','999123456789012','8000F9DCBE991A14','2858997D3B9F0001','blahblah'))
 ```
 
-This function can also take an additional parameter `format = ` which can save time if you have identified the format of the id already, but will cause the function to ignore unexpected formats or return NA
-```{r, include=T,warning=F}
-ISO11784Tools::convert_to_isodecimal(c('3E7.1CBE991A14','999123456789012','8000F9DCBE991A14','2858997D3B9F0001','blahblah'),format = 'isodothex')
-ISO11784Tools::convert_to_isodothex(c('3E7.1CBE991A14','999123456789012','8000F9DCBE991A14','2858997D3B9F0001','blahblah'),format = 'iso64bitl')
-ISO11784Tools::convert_to_iso64bitl(c('3E7.1CBE991A14','999123456789012','8000F9DCBE991A14','2858997D3B9F0001','blahblah'),format = 'isodecimal')
-ISO11784Tools::convert_to_iso64bitr(c('3E7.1CBE991A14','999123456789012','8000F9DCBE991A14','2858997D3B9F0001','blahblah'),format = 'iso64bitr')
-```
-
 ### _to_ Family
 
-The `convert_to_X` family of functions are wrappers for lower level functions that convert to and from the `Full Decimal` format. The `Full Decimal` format and the `Dot Hexadecimal` formats were the first I encountered, and seem to be the most prevalent. I chose `Full Decimal` as the primary format for this package, and created functions to convert from and to that format in the early stages of development. Hence, these functions center on `Full Decimal`.
+The `convert_to_X` family of functions are wrappers for lower level functions that convert to and from the `Full Decimal` format. The `Full Decimal` format and the `Dot Hexadecimal` format were the first I encountered, and seem to be the most prevalent. I chose `Full Decimal` as the primary format for this package, and created functions to convert from and to that format in the early stages of development. Hence, these functions center on `Full Decimal`.
 
 Rather than give full examples of these I will simply list them here for reference. Each of these functions will accept a single string or a vector of strings and will return `warning` and `NA` if the format is not as expected, but will still convert anything within a vector that is the correct format.
 
