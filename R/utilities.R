@@ -1,5 +1,5 @@
 #' Convert a list of codes to all other formats
-#' @param id A vector of character strings
+#' @param .data A vector of character strings
 #' @return  A tibble containing the original codes with a detected format column plus a column for each known format
 #' @export
 #' @examples
@@ -17,7 +17,7 @@ convert_to_all <- function(.data){
 }
 
 #' ISO11784 Pattern detection routine to identify (as far as possible) the input format
-#' @param id A vector of character strings
+#' @param .data A vector of character strings
 #' @return  A vector of character strings, each item being one of 5 formats: c('unknown', 'isodecimal', 'isodothex','iso64bitl', 'iso64bitr')
 #' @export
 #' @examples

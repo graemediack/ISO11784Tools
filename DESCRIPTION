@@ -1,6 +1,6 @@
 Package: ISO11784Tools
 Title: ISO11784 PIT Tag ID Format Converters
-Version: 1.1.1
+Version: 1.1.2
 Authors@R: 
     person("Graeme", "Diack", , "graemediack@hotmail.com.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0003-1023-4700"))
@@ -18,7 +18,8 @@ Imports:
   stringr,
   stringi,
   dplyr,
-  magrittr
+  magrittr,
+  tibble
 Suggests: 
     knitr,
     rmarkdown,

@@ -7,7 +7,7 @@
 convert_to_all(.data)
 }
 \arguments{
-\item{id}{A vector of character strings}
+\item{.data}{A vector of character strings}
 }
 \value{
 A tibble containing the original codes with a detected format column plus a column for each known format
