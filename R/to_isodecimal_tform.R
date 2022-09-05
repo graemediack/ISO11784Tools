@@ -28,9 +28,6 @@ isodothex_to_isodecimal <- function(.data){
 
     out[formatTest] <- paste0(manufacturer[formatTest],animalID[formatTest])
   }
-  if(any(is.na(out))){
-    warning("Some or all items do not match isodothex format and will appear as NA")
-  }
 
   out
 
@@ -68,9 +65,6 @@ iso64bitleft_to_isodecimal <- function(.data){
     animalID[formatTest] <-  stringr::str_pad(animalID[formatTest],width = 12,pad = "0",side = 'left')
 
     out[formatTest] <- paste0(manufacturer[formatTest],animalID[formatTest])
-  }
-  if(any(is.na(out))){
-    warning("Some or all items do not match iso64bitl format and will appear as NA")
   }
 
   out
@@ -110,9 +104,6 @@ iso64bitright_to_isodecimal <- function(.data){
     animalID[formatTest] <-  stringr::str_pad(animalID[formatTest],width = 12,pad = "0",side = 'left')
 
     out[formatTest] <- paste0(manufacturer[formatTest],animalID[formatTest])
-  }
-  if(any(is.na(out))){
-    warning("Some or all items do not match iso64bitr format and will appear as NA")
   }
 
   out
