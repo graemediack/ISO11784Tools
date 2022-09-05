@@ -3,6 +3,7 @@
 export("%>%")
 export(binary_to_decimal)
 export(binary_to_hexadecimal)
+export(convert_to_all)
 export(convert_to_iso64bitl)
 export(convert_to_iso64bitr)
 export(convert_to_isodecimal)

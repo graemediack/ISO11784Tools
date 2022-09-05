@@ -1,3 +1,21 @@
+#' Convert a list of codes to all other formats
+#' @param id A vector of character strings
+#' @return  A tibble containing the original codes with a detected format column plus a column for each known format
+#' @export
+#' @examples
+#' convert_to_all(c('3DD.ABC4567890'))
+convert_to_all <- function(.data){
+
+  out <- tibble::as_tibble(as.character(.data))
+  out$format <- get_iso11784_format(.data)
+  out$isodecimal <- convert_to_isodecimal(.data)
+  out$isodothex <- convert_to_isodothex(.data)
+  out$iso64bitl <- convert_to_iso64bitl(.data)
+  out$iso64bitr <- convert_to_iso64bitr(.data)
+
+  out
+}
+
 #' ISO11784 Pattern detection routine to identify (as far as possible) the input format
 #' @param id A vector of character strings
 #' @return  A vector of character strings, each item being one of 5 formats: c('unknown', 'isodecimal', 'isodothex','iso64bitl', 'iso64bitr')
