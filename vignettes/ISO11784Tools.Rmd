@@ -76,13 +76,13 @@ ISO11784Tools::convert_to_iso64bitl(c('3E7.1CBE991A14','999123456789012','8000F9
 ISO11784Tools::convert_to_iso64bitr(c('3E7.1CBE991A14','999123456789012','8000F9DCBE991A14','2858997D3B9F0001','blahblah'))
 ```
 
-<!-- This function can also take an additional parameter `format = ` which can save time if you have identified the format of the id already, but will cause the function to ignore unexpected formats or return NA -->
-<!-- ```{r, include=T,warning=F} -->
-<!-- ISO11784Tools::convert_to_isodecimal(c('3E7.1CBE991A14','999123456789012','8000F9DCBE991A14','2858997D3B9F0001','blahblah'),format = 'isodothex') -->
-<!-- ISO11784Tools::convert_to_isodothex(c('3E7.1CBE991A14','999123456789012','8000F9DCBE991A14','2858997D3B9F0001','blahblah'),format = 'iso64bitl') -->
-<!-- ISO11784Tools::convert_to_iso64bitl(c('3E7.1CBE991A14','999123456789012','8000F9DCBE991A14','2858997D3B9F0001','blahblah'),format = 'isodecimal') -->
-<!-- ISO11784Tools::convert_to_iso64bitr(c('3E7.1CBE991A14','999123456789012','8000F9DCBE991A14','2858997D3B9F0001','blahblah'),format = 'iso64bitr') -->
-<!-- ``` -->
+This function can also take an additional parameter `format = ` which can save time if you have identified the format of the id already, but will cause the function to ignore unexpected formats or return NA
+```{r, include=T,warning=F}
+ISO11784Tools::convert_to_isodecimal(c('3E7.1CBE991A14','999123456789012','8000F9DCBE991A14','2858997D3B9F0001','blahblah'),format = 'isodothex')
+ISO11784Tools::convert_to_isodothex(c('3E7.1CBE991A14','999123456789012','8000F9DCBE991A14','2858997D3B9F0001','blahblah'),format = 'iso64bitl')
+ISO11784Tools::convert_to_iso64bitl(c('3E7.1CBE991A14','999123456789012','8000F9DCBE991A14','2858997D3B9F0001','blahblah'),format = 'isodecimal')
+ISO11784Tools::convert_to_iso64bitr(c('3E7.1CBE991A14','999123456789012','8000F9DCBE991A14','2858997D3B9F0001','blahblah'),format = 'iso64bitr')
+```
 
 ### _to_ Family
 
