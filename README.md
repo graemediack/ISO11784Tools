@@ -7,13 +7,6 @@
 `vignette("ISO11784Tools")`
 
 
-### Installation
-
-`remotes::install_github("graemediack/ISO11784Tools",build_vignettes = TRUE)`
-
-`vignette("ISO11784Tools")`
-
-
 ## Introduction
 ISO 11784 and ISO 11785 are standards describing how information should be encoded within passive integrated transponder tags (PIT tags).
 
@@ -65,6 +58,13 @@ ISO11784Tools::convert_to_isodothex(c('3E7.1CBE991A14','999123456789012','8000F9
 ISO11784Tools::convert_to_iso64bitl(c('3E7.1CBE991A14','999123456789012','8000F9DCBE991A14','2858997D3B9F0001','blahblah'))
 ISO11784Tools::convert_to_iso64bitr(c('3E7.1CBE991A14','999123456789012','8000F9DCBE991A14','2858997D3B9F0001','blahblah'))
 ```
+
+### convert_to_all
+```{r, include=T,warning=F}
+ISO11784Tools::convert_to_all(c('3E7.1CBE991A14','999123456789012','8000F9DCBE991A14','2858997D3B9F0001','blahblah'))
+```
+
+`convert_to_all` takes a vector of strings and returns a 6 column tibble with detected format and all the possible conversions. It simply wraps the previous 5 functions into one and outputs as a tibble to save some time for the user
 
 ### _to_ Family
 
