@@ -6,9 +6,9 @@
 #' isodecimal_to_isodothex(c('989737733408912'))
 isodecimal_to_isodothex <- function(.data){
 
-  formatTest <- ISO11784Tools::get_iso11784_format(.data) == "isodecimal"
+  formatTest <- ISO11784Tools::get_iso11784_format(as.character(.data)) == "isodecimal"
 
-  out <- .data
+  out <- as.character(.data)
   out[!formatTest] <- NA
 
   if(!all(is.na(out))){
@@ -41,9 +41,9 @@ isodecimal_to_isodothex <- function(.data){
 #' isodecimal_to_iso64bitleft(c('989737733408912'))
 isodecimal_to_iso64bitleft <- function(.data){
 
-  formatTest <- ISO11784Tools::get_iso11784_format(.data) == "isodecimal"
+  formatTest <- ISO11784Tools::get_iso11784_format(as.character(.data)) == "isodecimal"
 
-  out <- .data
+  out <- as.character(.data)
   out[!formatTest] <- NA
 
   if(!all(is.na(out))){
@@ -84,9 +84,9 @@ isodecimal_to_iso64bitleft <- function(.data){
 #' isodecimal_to_iso64bitright(c('989737733408912'))
 isodecimal_to_iso64bitright <- function(.data){
 
-  formatTest <- ISO11784Tools::get_iso11784_format(.data) == "isodecimal"
+  formatTest <- ISO11784Tools::get_iso11784_format(as.character(.data)) == "isodecimal"
 
-  out <- .data
+  out <- as.character(.data)
   out[!formatTest] <- NA
 
   if(!all(is.na(out))){
