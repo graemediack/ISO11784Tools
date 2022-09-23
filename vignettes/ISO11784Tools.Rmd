@@ -25,9 +25,9 @@ library(ISO11784Tools)
 
 
 ## Introduction
-ISO 11784 and ISO 11785 are standards describing how information should be encoded within passive integrated transponder tags (PIT tags).
+ISO11784 and ISO11785 are standards describing how information should be encoded within passive integrated transponder tags (PIT tags).
 
-The standards describes the binary construction of the information stored in the tag, and how it should be read by PIT tag readers
+ISO11784 describes the binary construction of the information stored in the tag, and ISO11785 describes how it should be read by PIT tag readers.
 
 Despite this, there are some differences in how readers will display the id information depending on user settings and manufacturer choices.
 
