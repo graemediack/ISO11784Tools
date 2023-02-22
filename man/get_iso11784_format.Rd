@@ -7,7 +7,7 @@
 get_iso11784_format(.data)
 }
 \arguments{
-\item{id}{A vector of character strings}
+\item{.data}{A vector of character strings}
 }
 \value{
 A vector of character strings, each item being one of 5 formats: c('unknown', 'isodecimal', 'isodothex','iso64bitl', 'iso64bitr')

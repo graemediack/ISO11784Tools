@@ -6,9 +6,9 @@
 #' isodothex_to_isodecimal(c('3DD.3BC4567890'))
 isodothex_to_isodecimal <- function(.data){
 
-  formatTest <- ISO11784Tools::get_iso11784_format(.data) == "isodothex"
+  formatTest <- ISO11784Tools::get_iso11784_format(as.character(.data)) == "isodothex"
 
-  out <- .data
+  out <- as.character(.data)
   out[!formatTest] <- NA
 
   if(!all(is.na(out))){
@@ -28,9 +28,6 @@ isodothex_to_isodecimal <- function(.data){
 
     out[formatTest] <- paste0(manufacturer[formatTest],animalID[formatTest])
   }
-  if(any(is.na(out))){
-    warning("Some or all items do not match isodothex format and will appear as NA")
-  }
 
   out
 
@@ -44,9 +41,9 @@ isodothex_to_isodecimal <- function(.data){
 #' iso64bitleft_to_isodecimal(c('8000ABCDEF123456'))
 iso64bitleft_to_isodecimal <- function(.data){
 
-  formatTest <- ISO11784Tools::get_iso11784_format(.data) == "iso64bitl"
+  formatTest <- ISO11784Tools::get_iso11784_format(as.character(.data)) == "iso64bitl"
 
-  out <- .data
+  out <- as.character(.data)
   out[!formatTest] <- NA
 
   if(!all(is.na(out))){
@@ -69,9 +66,6 @@ iso64bitleft_to_isodecimal <- function(.data){
 
     out[formatTest] <- paste0(manufacturer[formatTest],animalID[formatTest])
   }
-  if(any(is.na(out))){
-    warning("Some or all items do not match iso64bitl format and will appear as NA")
-  }
 
   out
 }
@@ -84,9 +78,9 @@ iso64bitleft_to_isodecimal <- function(.data){
 #' iso64bitright_to_isodecimal(c('ABCDEF1234560001'))
 iso64bitright_to_isodecimal <- function(.data){
 
-  formatTest <- ISO11784Tools::get_iso11784_format(.data) == "iso64bitr"
+  formatTest <- ISO11784Tools::get_iso11784_format(as.character(.data)) == "iso64bitr"
 
-  out <- .data
+  out <- as.character(.data)
   out[!formatTest] <- NA
 
   if(!all(is.na(out))){
@@ -110,9 +104,6 @@ iso64bitright_to_isodecimal <- function(.data){
     animalID[formatTest] <-  stringr::str_pad(animalID[formatTest],width = 12,pad = "0",side = 'left')
 
     out[formatTest] <- paste0(manufacturer[formatTest],animalID[formatTest])
-  }
-  if(any(is.na(out))){
-    warning("Some or all items do not match iso64bitr format and will appear as NA")
   }
 
   out

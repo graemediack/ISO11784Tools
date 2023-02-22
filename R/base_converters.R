@@ -5,6 +5,7 @@
 #' @examples
 #' hexadecimal_to_decimal('ABC123')
 hexadecimal_to_decimal <- function(hex){
+  hex <- as.character(hex)
   if(length(hex) > 1){
     stop('hexadecimal_to_decimal function only accepts a single number')
   }
@@ -29,6 +30,7 @@ hexadecimal_to_decimal <- function(hex){
 #' @examples
 #' binary_to_decimal('1001100')
 binary_to_decimal <- function(bin){
+  bin <- as.character(bin)
   if(length(bin) > 1){
     stop('binary_to_decimal function only accepts a single number')
   }
@@ -118,11 +120,12 @@ hexadecimal_to_binary <- function(hex){
 #' @examples
 #' binary_to_hexadecimal('1001101')
 binary_to_hexadecimal <- function(bin){
+  bin <- as.character(bin)
   if(as.numeric(bin) == 0){
     return('0')
   }else{
     if(nchar(bin)%%4){
-      fullNibbleWidth <- stringr::str_pad(bin,width = nchar(bin)+(4-nchar(bin)%%4),pad = "0",side = 'left')
+      fullNibbleWidth <- nchar(bin)+(4-nchar(bin)%%4)
     }else{
       fullNibbleWidth <- nchar(bin)
     }

@@ -4,13 +4,10 @@
 \alias{convert_to_iso64bitl}
 \title{Convert any recognised ISO11784/5 format to Raw Hexadecimal format, animal tag bit on the Left}
 \usage{
-convert_to_iso64bitl(.data, format = NULL)
+convert_to_iso64bitl(.data)
 }
 \arguments{
 \item{.data}{A vector of character strings}
-
-\item{format}{a string indicating which format the ID is in, intended to be used with output from get_iso11784_format
-c('unknown', 'isodecimal', 'isodothex','iso64bitl', 'iso64bitr')}
 }
 \value{
 A converted vector of character strings
