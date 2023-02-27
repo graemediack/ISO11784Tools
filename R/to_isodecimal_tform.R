@@ -24,7 +24,7 @@ isodothex_to_isodecimal <- function(.data){
     # calculations RIGHT
     animalID[formatTest] <- lapply(animalID[formatTest],ISO11784Tools::hexadecimal_to_decimal)
     # Leading zero's are removed in this process and need added back on, animalID only
-    animalID[formatTest] <- animalID[formatTest] %>% stringr::str_pad(width = 12, side = 'left',pad = '0')
+    animalID[formatTest] <-  stringr::str_pad(animalID[formatTest], width = 12, side = 'left',pad = '0')
 
     out[formatTest] <- paste0(manufacturer[formatTest],animalID[formatTest])
   }

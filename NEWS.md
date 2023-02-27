@@ -1,6 +1,10 @@
 # ISO11784Tools News
 
-### v1.1.3
+### v1.1.4 2023-02-27
+
+removed dependency on magrittr pipe operator as it was only really used superficially
+
+### v1.1.3 2022-09-10
 
 fix bug character/numeric mismatch by adding more `as.character` conversions to user inputs
 added NEWS.md
