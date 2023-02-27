@@ -2,7 +2,7 @@ Package: ISO11784Tools
 Title: ISO11784 PIT Tag ID Format Converters
 Version: 1.1.4
 Authors@R: 
-    person("Graeme", "Diack", , "graemediack@hotmail.com.com", role = c("aut", "cre"),
+    person("Graeme", "Diack", , "graemediack@hotmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0003-1023-4700"))
 Description: Some tools to assist with converting ISO11784 animal ID codes between 4 recognised formats commonly displayed on PIT tag readers.
     The most common formats are 15 digit decimal, e.g., 999123456789012, and 13 character hexadecimal 'dot' format, e.g., 3E7.1CBE991A14. These are referred
@@ -14,7 +14,7 @@ License: GPL-3
 Encoding: UTF-8
 Language: en-GB
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.2
+RoxygenNote: 7.2.3
 Imports:
   stringr,
   stringi,
