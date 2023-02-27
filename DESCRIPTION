@@ -7,11 +7,12 @@ Authors@R:
 Description: Some tools to assist with converting ISO11784 animal ID codes between 4 recognised formats commonly displayed on PIT tag readers.
     The most common formats are 15 digit decimal, e.g., 999123456789012, and 13 character hexadecimal 'dot' format, e.g., 3E7.1CBE991A14. These are referred
     to in this package as isodecimal and isodothex. The other two formats are the raw hexadecimal representation of the ISO11784/5 binary
-    structure (see https://en.wikipedia.org/wiki/ISO_11784_and_ISO_11785). There are two 'flavours' of this format, a left and a right variation. Which flavour
+    structure (see <https://en.wikipedia.org/wiki/ISO_11784_and_ISO_11785>). There are two 'flavours' of this format, a left and a right variation. Which flavour
     a reader happens to output depends on if the developers decided to reverse the binary number or not before converting to hexadecimal, a decision based on 
     the fact that the PIT tags will transmit their binary code Least Significant Bit first, or backwards basically.
 License: GPL-3
 Encoding: UTF-8
+Language: en-GB
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.2
 Imports:
