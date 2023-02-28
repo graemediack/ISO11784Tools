@@ -1,3 +1,10 @@
+## Resubmission
+This is a resubmission. In this version I have:
+
+* Expanded acronymns in the package description.
+
+R CMD Check not rerun
+
 ## R CMD check results 2023-02-27
 There were no ERRORs or WARNINGs. 
 
