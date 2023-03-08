@@ -24,10 +24,11 @@ convert_to_all <- function(.data){
 #' get_iso11784_format(c('3DD.ABC4567890'))
 get_iso11784_format <- function(.data){
 
-  ISOdothex <- "^[:xdigit:]{3}[\\.]{1}[:xdigit:]{10}$"
+  ISOdothex <- "^[:xdigit:]{3}[\\.]{1}[:xdigit:]{10}$" # also known as bi-hex
   ISO64bitl <- "^8000[:xdigit:]{12}$" # 64 bits and animal tag bit on the left
   ISO64bitr <- "^[:xdigit:]{12}0001$" # 64 bits and animal tag bit on the right
-  ISOdecimal <- "^[0-9]{15}$"
+  #ISOdecimal <- "^[0-9]{15}$"
+  ISOdecimal <- "^[0-9]{3}[_\\.]{0,1}[0-9]{12}$"
 
   out <- tibble::as_tibble(as.character(.data)) #convert to tibble and ensure
   out[is.na(out)] <- "" # replace all NA values with empty string
@@ -39,7 +40,8 @@ get_iso11784_format <- function(.data){
   out[stringr::str_detect(out$value,ISO64bitl),]$format <- 'iso64bitl'
   out[stringr::str_detect(out$value,ISO64bitr),]$format <- 'iso64bitr'
   # reset outsider cases back to unknown
-  out[out$format == 'isodecimal',][as.numeric(stringr::str_sub(out[out$format == 'isodecimal',]$value,4,-1)) > 274877906943,]$format <- 'unknown' # this number is the biggest 38 bit binary number, animal ID cannot be larger than 38 bits
+  # NOTE special case for ISODECIMAL - Handle possible underscore or dot separating manufacturer and animalID segments
+  out[out$format == 'isodecimal',][as.numeric(stringr::str_sub(stringr::str_remove_all(out[out$format == 'isodecimal',]$value, "[_\\.]"),4,-1)) > 274877906943,]$format <- 'unknown' # this number is the biggest 38 bit binary number, animal ID cannot be larger than 38 bits
   out[out$format == 'isodothex',][as.hexmode(stringr::str_sub(out[out$format == 'isodothex',]$value,5,5)) > as.hexmode('3'),]$format <- 'unknown' # this number is the biggest 38 bit binary number, animal ID cannot be larger than 38 bits
   out[out$format == 'iso64bitl',][!(stringr::str_detect(out[out$format == 'iso64bitl',]$value,"[a-fA-F]")),]$format <- 'unknown' # cautiously assume that 64bit hexadecimal should have at least 1 alpha character
   out[out$format == 'iso64bitr',][!(stringr::str_detect(out[out$format == 'iso64bitr',]$value,"[a-fA-F]")),]$format <- 'unknown' # cautiously assume that 64bit hexadecimal should have at least 1 alpha character

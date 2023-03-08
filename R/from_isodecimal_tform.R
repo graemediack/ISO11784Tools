@@ -12,6 +12,10 @@ isodecimal_to_isodothex <- function(.data){
   out[!formatTest] <- NA
 
   if(!all(is.na(out))){
+    # Handle possible underscore or dot separating manufacturer and animalID segments
+    # remove _ or dot (should only be one or other, formatTest will handle otherwise)
+    out <- stringr::str_remove_all(out, "[_\\.]")
+
     manufacturer <- out
     animalID <- out
 
@@ -47,6 +51,10 @@ isodecimal_to_iso64bitleft <- function(.data){
   out[!formatTest] <- NA
 
   if(!all(is.na(out))){
+    # Handle possible underscore or dot separating manufacturer and animalID segments
+    # remove _ or dot (should only be one or other, formatTest will handle otherwise)
+    out <- stringr::str_remove_all(out, "[_\\.]")
+
     manufacturer <- out
     animalID <- out
 
@@ -90,6 +98,10 @@ isodecimal_to_iso64bitright <- function(.data){
   out[!formatTest] <- NA
 
   if(!all(is.na(out))){
+    # Handle possible underscore or dot separating manufacturer and animalID segments
+    # remove _ or dot (should only be one or other, formatTest will handle otherwise)
+    out <- stringr::str_remove_all(out, "[_\\.]")
+
     manufacturer <- out
     animalID <- out
 
