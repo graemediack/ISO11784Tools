@@ -1,8 +1,17 @@
+<!-- badges: start -->
+
+[![CRAN status](https://www.r-pkg.org/badges/version/ISO11784Tools)](https://CRAN.R-project.org/package=ISO11784Tools)
+<!-- badges: end -->
+
 # ISO11784Tools
 
 ### Installation
 
-`remotes::install_github("graemediack/ISO11784Tools",build_vignettes = TRUE)`
+#### CRAN version
+`install.packages('ISO11784Tools')`
+
+#### Development version
+`remotes::install_github("graemediack/ISO11784Tools@development",build_vignettes = TRUE)`
 
 `vignette("ISO11784Tools")`
 
