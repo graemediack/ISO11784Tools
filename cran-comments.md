@@ -1,4 +1,26 @@
 ## UPDATE
+v1.2.1
+
+* fix bug - dothex format detected if isodecimal has '.' separator but only 13 characters. Added value new value check
+* added test objects for new value check
+
+## RESUBMISSION <enter date when submitting>
+
+New patch 1.2.1
+
+── R CMD check results ────────────────── ISO11784Tools 1.2.0 ────
+Duration: 1m 25.2s
+
+❯ checking for future file timestamps ... NOTE
+  unable to verify current time
+
+0 errors ✔ | 0 warnings ✔ | 1 note ✖
+
+R CMD check succeeded
+
+##############################
+
+## UPDATE
 v1.2.0
 
 * new feature - handle different format of isodecimal code where separating characters might be used

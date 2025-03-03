@@ -1,5 +1,13 @@
 # ISO11784Tools News
 
+### v1.2.1 2025-03-03
+
+Fix bug introduced by last update - dothex manufacturer code must not exceed value HEX:3e7
+
+### v1.2.0 2023-03-08
+
+Added detection of isodecimal codes with '.' and '_' separators between manufacturer code and animal ID
+
 ### v1.1.4 2023-02-27
 
 removed dependency on magrittr pipe operator as it was only really used superficially

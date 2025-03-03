@@ -27,12 +27,11 @@ get_iso11784_format <- function(.data){
   ISOdothex <- "^[:xdigit:]{3}[\\.]{1}[:xdigit:]{10}$" # also known as bi-hex
   ISO64bitl <- "^8000[:xdigit:]{12}$" # 64 bits and animal tag bit on the left
   ISO64bitr <- "^[:xdigit:]{12}0001$" # 64 bits and animal tag bit on the right
-  #ISOdecimal <- "^[0-9]{15}$"
-  ISOdecimal <- "^[0-9]{3}[_\\.]{0,1}[0-9]{12}$"
+  ISOdecimal <- "^[0-9]{3}[_\\.]{0,1}[0-9]{12}$" # decimal format 15 numerical with possible separator after first 3 . or _
 
   out <- tibble::as_tibble(as.character(.data)) #convert to tibble and ensure
   out[is.na(out)] <- "" # replace all NA values with empty string
-  out$format <- "unknown"
+  out$format <- "unknown" # initialise format column with default value 'unknown'
 
   # capture basic format detection comparisons
   out[stringr::str_detect(out$value,ISOdecimal),]$format <- 'isodecimal'
@@ -42,7 +41,8 @@ get_iso11784_format <- function(.data){
   # reset outsider cases back to unknown
   # NOTE special case for ISODECIMAL - Handle possible underscore or dot separating manufacturer and animalID segments
   out[out$format == 'isodecimal',][as.numeric(stringr::str_sub(stringr::str_remove_all(out[out$format == 'isodecimal',]$value, "[_\\.]"),4,-1)) > 274877906943,]$format <- 'unknown' # this number is the biggest 38 bit binary number, animal ID cannot be larger than 38 bits
-  out[out$format == 'isodothex',][as.hexmode(stringr::str_sub(out[out$format == 'isodothex',]$value,5,5)) > as.hexmode('3'),]$format <- 'unknown' # this number is the biggest 38 bit binary number, animal ID cannot be larger than 38 bits
+  out[out$format == 'isodothex',][as.hexmode(stringr::str_sub(out[out$format == 'isodothex',]$value,5,5)) > as.hexmode('3'),]$format <- 'unknown' # HEX:3fffffffff == 274877906943 == the biggest 38 bit binary number, this tests the most significant hex character is not greater than 3
+  out[out$format == 'isodothex',][as.hexmode(stringr::str_sub(out[out$format == 'isodothex',]$value,1,3)) > as.hexmode('3e7'),]$format <- 'unknown' # this tests that the MANUFACTURER code is not greater than HEX:3E7, or DECIMAL: 999
   out[out$format == 'iso64bitl',][!(stringr::str_detect(out[out$format == 'iso64bitl',]$value,"[a-fA-F]")),]$format <- 'unknown' # cautiously assume that 64bit hexadecimal should have at least 1 alpha character
   out[out$format == 'iso64bitr',][!(stringr::str_detect(out[out$format == 'iso64bitr',]$value,"[a-fA-F]")),]$format <- 'unknown' # cautiously assume that 64bit hexadecimal should have at least 1 alpha character
 
